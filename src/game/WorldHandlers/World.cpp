@@ -1522,14 +1522,14 @@ void World::showFooter()
 
     // PLAYERBOTS can be included or excluded but also disabled via mangos.conf
 #ifdef ENABLE_BOTS
-    bool playerBotActive = sConfig.GetBoolDefault("PlayerbotAI.DisableBots", true);
+    bool playerBotActive = sConfig.GetBoolDefault("AiPlayerbot.Enabled", true);
     if (playerBotActive)
     {
-        modules_.insert("            PlayerBots : Disabled");
+        modules_.insert("            PlayerBots : Enabled");
     }
     else
     {
-        modules_.insert("            PlayerBots : Enabled");
+        modules_.insert("            PlayerBots : Disabled");
     }
 #endif
 
