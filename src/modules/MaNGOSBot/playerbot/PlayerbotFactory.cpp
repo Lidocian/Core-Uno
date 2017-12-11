@@ -408,77 +408,244 @@ bool PlayerbotFactory::CanEquipArmor(ItemPrototype const* proto)
 
     if (proto->Quality <= ITEM_QUALITY_NORMAL)
         return true;
-
-    uint8 sp = 0, ap = 0, tank = 0;
-    for (int j = 0; j < MAX_ITEM_PROTO_STATS; ++j)
+	//Lidocain//
+	//sph - spellpower healer,
+	//spd - spellpower dps,
+	//apa - attackpower based on agility, 
+	//aps - attackpower based on strenght,
+	//apr - attackpower based on ranged (agility),
+	//tank - tank
+	uint8 sph = 0, spd = 0, apa = 0, aps = 0, apr = 0, tank = 0;
+	for (int j = 0; j < MAX_ITEM_PROTO_STATS; ++j)
+    
     {
         // for ItemStatValue != 0
         if(!proto->ItemStat[j].ItemStatValue)
             continue;
 
-        AddItemStats(proto->ItemStat[j].ItemStatType, sp, ap, tank);
+        AddItemStats(proto->ItemStat[j].ItemStatType, sph, spd, apa, aps, apr, tank);
     }
 
-    return CheckItemStats(sp, ap, tank);
+    return CheckItemStats(sph, spd, apa, aps, apr, tank);
 }
 
-bool PlayerbotFactory::CheckItemStats(uint8 sp, uint8 ap, uint8 tank)
+bool PlayerbotFactory::CheckItemStats(uint8 sph, uint8 spd, uint8 apa, uint8 aps, uint8 apr, uint8 tank)
 {
-    switch (bot->getClass())
-    {
-    case CLASS_PRIEST:
-    case CLASS_MAGE:
-    case CLASS_WARLOCK:
-        if (!sp || ap > sp || tank > sp)
-            return false;
-        break;
-    case CLASS_PALADIN:
-    case CLASS_WARRIOR:
-        if ((!ap && !tank) || sp > ap || sp > tank)
-            return false;
-        break;
-    case CLASS_HUNTER:
-    case CLASS_ROGUE:
-        if (!ap || sp > ap || sp > tank)
-            return false;
-        break;
-    }
+	uint8 tab = AiFactory::GetPlayerSpecTab(bot);
 
-    return sp || ap || tank;
+	switch (bot->getClass())
+	{
+
+	case CLASS_PRIEST:
+
+
+
+		if (tab == 1)
+		{
+
+			if (!sph || apa > sph || aps > sph || apr > sph || tank > sph || spd > sph)
+				return false;
+		}
+		else if (tab == 0)
+		{
+			if (!spd || apa > spd || aps > spd || apr > spd || tank > spd || sph > spd)
+				return false;
+		}
+		else if (tab == 2)
+		{
+			if (!spd || apa > spd || aps > spd || apr > spd || tank > spd || sph > spd)
+				return false;
+		}
+		break;
+
+	case CLASS_MAGE:
+	case CLASS_WARLOCK:
+		if (!spd || sph > spd || aps > spd || apr > spd || tank > spd || apa > spd)
+			return false;
+		break;
+
+	case CLASS_PALADIN:
+
+		if
+			(tab == 0)
+		{
+			if (!sph || spd > sph || aps > sph || apr > sph || tank > sph || apa > sph)
+				return false;
+		}
+
+		else if (tab == 1)
+		{
+			if (!tank || aps > tank || spd > tank || apr > tank || apa > tank || sph > tank)
+				return false;
+		}
+		else if (tab == 2)
+		{
+			if (!aps || apa > aps || spd > aps || apr > aps || tank > aps || sph > aps)
+				return false;
+		}
+		break;
+
+	case CLASS_WARRIOR:
+
+		if (tab == 2)
+		{
+			if (!tank || apa > tank || spd > tank || apr > tank || aps > tank || sph > tank)
+				return false;
+		}
+		else if (tab == 0)
+		{
+			if (!aps || apa > aps || spd > aps || apr > aps || tank > aps || sph > aps)
+				return false;
+		}
+		else if (tab == 1)
+		{
+			if (!aps || apa > aps || spd > aps || apr > aps || tank > aps || sph > aps)
+				return false;
+		}
+		break;
+
+	case CLASS_HUNTER:
+		if (!apr || aps > apr || spd > apr || apa > apr || tank > apr || sph > apr)
+			return false;
+		break;
+
+	case CLASS_ROGUE:
+		if (!apa || aps > apa || spd > apa || apr > apa || tank > apa || sph > apa)
+			return false;
+		break;
+
+	case CLASS_SHAMAN:
+
+		if (tab == 0)
+		{
+			if (!spd || apa > spd || aps > spd || apr > spd || tank > spd || sph > spd)
+				return false;
+		}
+		else if (tab == 1)
+		{
+			if (!apa || aps > apa || spd > apa || apr > apa || tank > apa || sph > apa)
+				return false;
+		}
+		else if (tab == 2)
+		{
+			if (!sph || apa > sph || aps > sph || apr > sph || tank > sph || spd > sph)
+				return false;
+		}
+		break;
+
+	case CLASS_DRUID:
+
+		if (tab == 0)
+		{
+			if (!spd || apa > spd || aps > spd || apr > spd || tank > spd || sph > spd)
+				return false;
+		}
+		else if (tab == 1)
+		{
+			if (!tank || apa > tank || spd > tank || apr > tank || aps > tank || sph > tank)
+				return false;
+		}
+		else if (tab == 2)
+		{
+			if (!sph || apa > sph || aps > sph || apr > sph || tank > sph || spd > sph)
+				return false;
+		}
+		break;
+
+	}
+
+	return spd || sph || apa || aps || apr || tank;
 }
 
-void PlayerbotFactory::AddItemStats(uint32 mod, uint8 &sp, uint8 &ap, uint8 &tank)
+void PlayerbotFactory::AddItemStats(uint32 mod, uint8 &sph, uint8 &spd, uint8 &apa, uint8 &aps, uint8 &apr, uint8 &tank)
 {
-    switch (mod)
-    {
-    case ITEM_MOD_HEALTH:
-    case ITEM_MOD_STAMINA:
-    case ITEM_MOD_MANA:
-    case ITEM_MOD_INTELLECT:
-    case ITEM_MOD_SPIRIT:
-        sp++;
-        break;
-    }
 
-    switch (mod)
-    {
-    case ITEM_MOD_AGILITY:
-    case ITEM_MOD_STRENGTH:
-    case ITEM_MOD_HEALTH:
-    case ITEM_MOD_STAMINA:
-        tank++;
-        break;
-    }
+	switch (mod)
+	{
+	case ITEM_MOD_MANA:
+	case ITEM_MOD_INTELLECT:
+	case ITEM_MOD_SPIRIT:
+	case ITEM_MOD_HIT_RATING:
+	case ITEM_MOD_CRIT_RATING:
+	case ITEM_MOD_HASTE_RATING:
+	case ITEM_MOD_HASTE_SPELL_RATING:
+		sph++;
+		break;
+	}
+	switch (mod)
+	{
+	case ITEM_MOD_INTELLECT:
+	case ITEM_MOD_HIT_RATING:
+	case ITEM_MOD_CRIT_RATING:
+	case ITEM_MOD_HASTE_RATING:
+	case ITEM_MOD_HIT_SPELL_RATING:
+	case ITEM_MOD_CRIT_SPELL_RATING:
+	case ITEM_MOD_HASTE_SPELL_RATING:
+		spd++;
+		break;
+	}
+	switch (mod)
+	{
+	case ITEM_MOD_HEALTH:
+	case ITEM_MOD_STAMINA:
+	case ITEM_MOD_DEFENSE_SKILL_RATING:
+	case ITEM_MOD_DODGE_RATING:
+	case ITEM_MOD_PARRY_RATING:
+	case ITEM_MOD_BLOCK_RATING:
+	case ITEM_MOD_HIT_TAKEN_MELEE_RATING:
+	case ITEM_MOD_HIT_TAKEN_RANGED_RATING:
+	case ITEM_MOD_HIT_TAKEN_SPELL_RATING:
+	case ITEM_MOD_CRIT_TAKEN_MELEE_RATING:
+	case ITEM_MOD_CRIT_TAKEN_RANGED_RATING:
+	case ITEM_MOD_CRIT_TAKEN_SPELL_RATING:
+	case ITEM_MOD_HIT_TAKEN_RATING:
+	case ITEM_MOD_CRIT_TAKEN_RATING:
+	case ITEM_MOD_RESILIENCE_RATING:
+		tank++;
+		break;
 
-    switch (mod)
-    {
-    case ITEM_MOD_HEALTH:
-    case ITEM_MOD_STAMINA:
-    case ITEM_MOD_AGILITY:
-    case ITEM_MOD_STRENGTH:
-        ap++;
-        break;
-    }
+	}
+	switch (mod)
+	{
+	case ITEM_MOD_AGILITY:
+	case ITEM_MOD_HIT_RATING:
+	case ITEM_MOD_CRIT_RATING:
+	case ITEM_MOD_HASTE_RATING:
+	case ITEM_MOD_HIT_MELEE_RATING:
+	case ITEM_MOD_CRIT_MELEE_RATING:
+	case ITEM_MOD_HASTE_MELEE_RATING:
+	case ITEM_MOD_EXPERTISE_RATING:
+		apa++;
+		break;
+	}
+	switch (mod)
+	{
+	case ITEM_MOD_STRENGTH:
+	case ITEM_MOD_HIT_RATING:
+	case ITEM_MOD_CRIT_RATING:
+	case ITEM_MOD_HASTE_RATING:
+	case ITEM_MOD_HIT_MELEE_RATING:
+	case ITEM_MOD_CRIT_MELEE_RATING:
+	case ITEM_MOD_HASTE_MELEE_RATING:
+	case ITEM_MOD_EXPERTISE_RATING:
+		aps++;
+		break;
+	}
+	switch (mod)
+	{
+	case ITEM_MOD_AGILITY:
+	case ITEM_MOD_HIT_RATING:
+	case ITEM_MOD_CRIT_RATING:
+	case ITEM_MOD_HASTE_RATING:
+	case ITEM_MOD_HIT_RANGED_RATING:
+	case ITEM_MOD_CRIT_RANGED_RATING:
+	case ITEM_MOD_HASTE_RANGED_RATING:
+	case ITEM_MOD_HIT_MELEE_RATING:
+	case ITEM_MOD_CRIT_MELEE_RATING:
+	case ITEM_MOD_HASTE_MELEE_RATING:
+		apr++;
+		break;
+	}
 }
 
 bool PlayerbotFactory::CanEquipWeapon(ItemPrototype const* proto)
@@ -674,7 +841,7 @@ void PlayerbotFactory::InitEquipment(bool incremental)
     {
         if (slot == EQUIPMENT_SLOT_TABARD || slot == EQUIPMENT_SLOT_BODY)
             continue;
-
+		int tab = AiFactory::GetPlayerSpecTab(bot);
         uint32 desiredQuality = itemQuality;
         if (urand(0, 100) < 100 * sPlayerbotAIConfig.randomGearLoweringChance && desiredQuality > ITEM_QUALITY_NORMAL) {
             desiredQuality--;
@@ -715,6 +882,9 @@ void PlayerbotFactory::InitEquipment(bool incremental)
                     continue;
 
 				if (slot == EQUIPMENT_SLOT_OFFHAND && bot->getClass() == CLASS_PALADIN && proto->SubClass != ITEM_SUBCLASS_ARMOR_SHIELD)
+					continue;
+
+				if (slot == EQUIPMENT_SLOT_OFFHAND && bot->getClass() == CLASS_WARRIOR && (tab == 2) && proto->SubClass != ITEM_SUBCLASS_ARMOR_SHIELD)
 					continue;
 
                 uint16 dest = 0;
@@ -963,16 +1133,16 @@ void PlayerbotFactory::EnchantItem(Item* item)
             if (!enchantSpell || (enchantSpell->spellLevel && enchantSpell->spellLevel > level))
                 continue;
 
-            uint8 sp = 0, ap = 0, tank = 0;
+			uint8 sph = 0, spd = 0, apa = 0, aps = 0, apr = 0, tank = 0;
             for (int i = 0; i < 3; ++i)
             {
                 if (enchant->type[i] != ITEM_ENCHANTMENT_TYPE_STAT)
                     continue;
 
-                AddItemStats(enchant->spellid[i], sp, ap, tank);
+                AddItemStats(enchant->spellid[i], sph, spd, apa, aps, apr, tank);
             }
 
-            if (!CheckItemStats(sp, ap, tank))
+            if (!CheckItemStats(sph, spd, apa, aps, apr, tank))
                 continue;
 
             if (!item->IsFitToSpellRequirements(entry))

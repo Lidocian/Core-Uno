@@ -60,8 +60,8 @@ private:
     bool CanEquipArmor(ItemPrototype const* proto);
     bool CanEquipWeapon(ItemPrototype const* proto);
     void EnchantItem(Item* item);
-    void AddItemStats(uint32 mod, uint8 &sp, uint8 &ap, uint8 &tank);
-    bool CheckItemStats(uint8 sp, uint8 ap, uint8 tank);
+    void AddItemStats(uint32 mod, uint8 &sph, uint8 &spd, uint8 &apa, uint8 &aps, uint8 &apr, uint8 &tank);
+    bool CheckItemStats(uint8 sph, uint8 spd, uint8 apa, uint8 aps, uint8 apr, uint8 tank);
     void CancelAuras();
     bool IsDesiredReplacement(Item* item);
     void InitBags();
