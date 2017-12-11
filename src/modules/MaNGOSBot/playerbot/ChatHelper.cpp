@@ -159,6 +159,8 @@ ChatHelper::ChatHelper(PlayerbotAI* ai) : PlayerbotAIAware(ai)
     races[RACE_TAUREN] = "Tauren";
     races[RACE_TROLL] = "Troll";
     races[RACE_UNDEAD] = "Undead";
+	races[RACE_DRAENEI] = "Draenei";
+	races[RACE_BLOODELF] = "Blood Elf";
 }
 
 string ChatHelper::formatMoney(uint32 copper)
