@@ -51,6 +51,9 @@ void PlayerbotFactory::Refresh()
     uint32 money = urand(level * 1000, level * 5 * 1000);
     if (bot->GetMoney() < money)
         bot->SetMoney(money);
+	bot->SetHealthPercent(100);
+	if (bot->GetPowerType() == POWER_MANA) {
+		bot->SetPower(POWER_MANA, bot->GetMaxPower(POWER_MANA));}
     bot->SaveToDB();
 }
 
@@ -168,6 +171,9 @@ void PlayerbotFactory::Randomize(bool incremental)
 
     sLog.outString("Saving to DB...");
     bot->SetMoney(urand(level * 1000, level * 5 * 1000));
+	bot->SetHealthPercent(100);
+	if (bot->GetPowerType() == POWER_MANA){
+		bot->SetPower(POWER_MANA, bot->GetMaxPower(POWER_MANA));}
     bot->SaveToDB();
     sLog.outDetail("Done.");
 }
@@ -443,24 +449,24 @@ bool PlayerbotFactory::CheckItemStats(uint8 sph, uint8 spd, uint8 apa, uint8 aps
 		if (tab == 1)
 		{
 
-			if (!sph || apa > sph || aps > sph || apr > sph || tank > sph || spd > sph)
+			if (!sph/* || apa > sph || aps > sph || apr > sph || tank > sph || spd > sph*/)
 				return false;
 		}
 		else if (tab == 0)
 		{
-			if (!spd || apa > spd || aps > spd || apr > spd || tank > spd || sph > spd)
+			if (!spd/* || apa > spd || aps > spd || apr > spd || tank > spd || sph > spd*/)
 				return false;
 		}
 		else if (tab == 2)
 		{
-			if (!spd || apa > spd || aps > spd || apr > spd || tank > spd || sph > spd)
+			if (!spd/* || apa > spd || aps > spd || apr > spd || tank > spd || sph > spd*/)
 				return false;
 		}
 		break;
 
 	case CLASS_MAGE:
 	case CLASS_WARLOCK:
-		if (!spd || sph > spd || aps > spd || apr > spd || tank > spd || apa > spd)
+		if (!spd || sph > spd /*|| aps > spd || apr > spd || tank > spd || apa > spd*/)
 			return false;
 		break;
 
@@ -469,18 +475,18 @@ bool PlayerbotFactory::CheckItemStats(uint8 sph, uint8 spd, uint8 apa, uint8 aps
 		if
 			(tab == 0)
 		{
-			if (!sph || spd > sph || aps > sph || apr > sph || tank > sph || apa > sph)
+			if (!sph || spd > sph /*|| aps > sph || apr > sph || tank > sph || apa > sph*/)
 				return false;
 		}
 
 		else if (tab == 1)
 		{
-			if (!tank || aps > tank || spd > tank || apr > tank || apa > tank || sph > tank)
+			if (!tank || aps > tank /*|| spd > tank || apr > tank || apa > tank || sph > tank*/)
 				return false;
 		}
 		else if (tab == 2)
 		{
-			if (!aps || apa > aps || spd > aps || apr > aps || tank > aps || sph > aps)
+			if (!aps || apa > aps/* || spd > aps || apr > aps || tank > aps || sph > aps*/)
 				return false;
 		}
 		break;
@@ -489,28 +495,28 @@ bool PlayerbotFactory::CheckItemStats(uint8 sph, uint8 spd, uint8 apa, uint8 aps
 
 		if (tab == 2)
 		{
-			if (!tank || apa > tank || spd > tank || apr > tank || aps > tank || sph > tank)
+			if (!tank /*|| apa > tank || spd > tank || apr > tank || aps > tank || sph > tank*/)
 				return false;
 		}
 		else if (tab == 0)
 		{
-			if (!aps || apa > aps || spd > aps || apr > aps || tank > aps || sph > aps)
+			if (!aps /*|| apa > aps || spd > aps || apr > aps || tank > aps || sph > aps*/)
 				return false;
 		}
 		else if (tab == 1)
 		{
-			if (!aps || apa > aps || spd > aps || apr > aps || tank > aps || sph > aps)
+			if (!aps /*|| apa > aps || spd > aps || apr > aps || tank > aps || sph > aps*/)
 				return false;
 		}
 		break;
 
 	case CLASS_HUNTER:
-		if (!apr || aps > apr || spd > apr || apa > apr || tank > apr || sph > apr)
+		if (!apr /*|| aps > apr || spd > apr || apa > apr || tank > apr || sph > apr*/)
 			return false;
 		break;
 
 	case CLASS_ROGUE:
-		if (!apa || aps > apa || spd > apa || apr > apa || tank > apa || sph > apa)
+		if (!apa/* || aps > apa || spd > apa || apr > apa || tank > apa || sph > apa*/)
 			return false;
 		break;
 
@@ -518,17 +524,17 @@ bool PlayerbotFactory::CheckItemStats(uint8 sph, uint8 spd, uint8 apa, uint8 aps
 
 		if (tab == 0)
 		{
-			if (!spd || apa > spd || aps > spd || apr > spd || tank > spd || sph > spd)
+			if (!spd /*|| apa > spd || aps > spd || apr > spd || tank > spd || sph > spd*/)
 				return false;
 		}
 		else if (tab == 1)
 		{
-			if (!apa || aps > apa || spd > apa || apr > apa || tank > apa || sph > apa)
+			if (!apa/* || aps > apa || spd > apa || apr > apa || tank > apa || sph > apa*/)
 				return false;
 		}
 		else if (tab == 2)
 		{
-			if (!sph || apa > sph || aps > sph || apr > sph || tank > sph || spd > sph)
+			if (!sph /*|| apa > sph || aps > sph || apr > sph || tank > sph || spd > sph*/)
 				return false;
 		}
 		break;
@@ -537,17 +543,17 @@ bool PlayerbotFactory::CheckItemStats(uint8 sph, uint8 spd, uint8 apa, uint8 aps
 
 		if (tab == 0)
 		{
-			if (!spd || apa > spd || aps > spd || apr > spd || tank > spd || sph > spd)
+			if (!spd /*|| apa > spd || aps > spd || apr > spd || tank > spd || sph > spd*/)
 				return false;
 		}
 		else if (tab == 1)
 		{
-			if (!tank || apa > tank || spd > tank || apr > tank || aps > tank || sph > tank)
+			if (!tank /*|| apa > tank || spd > tank || apr > tank || aps > tank || sph > tank*/)
 				return false;
 		}
 		else if (tab == 2)
 		{
-			if (!sph || apa > sph || aps > sph || apr > sph || tank > sph || spd > sph)
+			if (!sph/* || apa > sph || aps > sph || apr > sph || tank > sph || spd > sph*/)
 				return false;
 		}
 		break;
@@ -884,7 +890,10 @@ void PlayerbotFactory::InitEquipment(bool incremental)
 				if (slot == EQUIPMENT_SLOT_OFFHAND && bot->getClass() == CLASS_PALADIN && proto->SubClass != ITEM_SUBCLASS_ARMOR_SHIELD)
 					continue;
 
-				if (slot == EQUIPMENT_SLOT_OFFHAND && bot->getClass() == CLASS_WARRIOR && (tab == 2) && proto->SubClass != ITEM_SUBCLASS_ARMOR_SHIELD)
+				if (slot == EQUIPMENT_SLOT_OFFHAND && bot->getClass() == CLASS_WARRIOR && tab == 2 && proto->SubClass != ITEM_SUBCLASS_ARMOR_SHIELD)
+					continue;
+
+				if (slot == EQUIPMENT_SLOT_OFFHAND && bot->getClass() == CLASS_WARRIOR && tab == 1 && proto->Class != ITEM_CLASS_WEAPON)
 					continue;
 
                 uint16 dest = 0;
