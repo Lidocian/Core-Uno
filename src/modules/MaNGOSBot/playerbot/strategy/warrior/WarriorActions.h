@@ -11,8 +11,6 @@ namespace ai
             return NextAction::merge( NextAction::array(0, new NextAction("battle stance"), NULL), CastMeleeSpellAction::getPrerequisites());
         }
     };
-
-
 	// berserker
 	class CastBerserkerMeleeSpellAction : public CastMeleeSpellAction {
 	public:
@@ -21,7 +19,6 @@ namespace ai
 			return NextAction::merge(NextAction::array(0, new NextAction("berserker stance"), NULL), CastMeleeSpellAction::getPrerequisites());
 		}
 	};
-
     // defensive
     class CastDefensiveMeleeSpellAction : public CastMeleeSpellAction {
     public:
@@ -30,63 +27,52 @@ namespace ai
             return NextAction::merge( NextAction::array(0, new NextAction("defensive stance"), NULL), CastMeleeSpellAction::getPrerequisites());
         }
     };
-
     // all
     class CastHeroicStrikeAction : public CastMeleeSpellAction {
     public:
         CastHeroicStrikeAction(PlayerbotAI* ai) : CastMeleeSpellAction(ai, "heroic strike") {}
     };
-
     // all
     class CastCleaveAction : public CastMeleeSpellAction {
     public:
         CastCleaveAction(PlayerbotAI* ai) : CastMeleeSpellAction(ai, "cleave") {}
     };
-
     // battle, berserker
     class CastMockingBlowAction : public CastMeleeSpellAction {
     public:
         CastMockingBlowAction(PlayerbotAI* ai) : CastMeleeSpellAction(ai, "mocking blow") {}
     };
-
     class CastBloodthirstAction : public CastMeleeSpellAction {
     public:
         CastBloodthirstAction(PlayerbotAI* ai) : CastMeleeSpellAction(ai, "bloodthirst") {}
     };
-
 	class CastMortalStrikeAction : public CastMeleeSpellAction {
 	public:
 		CastMortalStrikeAction(PlayerbotAI* ai) : CastMeleeSpellAction(ai, "mortal strike") {}
 	};
-
 	class CastWhirlwindAction : public CastMeleeSpellAction {
 	public:
 		CastWhirlwindAction(PlayerbotAI* ai) : CastMeleeSpellAction(ai, "whirlwind") {}
 	};
-
 	class CastSweepingStrikesAction : public CastMeleeSpellAction {
 	public:
 		CastSweepingStrikesAction(PlayerbotAI* ai) : CastMeleeSpellAction(ai, "sweeping strikes") {}
 	};
-
     // battle, berserker
     class CastExecuteAction : public CastMeleeSpellAction {
     public:
         CastExecuteAction(PlayerbotAI* ai) : CastMeleeSpellAction(ai, "execute") {}
     };
-
     // battle
     class CastOverpowerAction : public CastBattleMeleeSpellAction {
     public:
         CastOverpowerAction(PlayerbotAI* ai) : CastBattleMeleeSpellAction(ai, "overpower") {}
     };
-
     // battle, berserker
     class CastHamstringAction : public CastMeleeSpellAction {
     public:
         CastHamstringAction(PlayerbotAI* ai) : CastMeleeSpellAction(ai, "hamstring") {}
     };
-
     // defensive
     class CastTauntAction : public CastSpellAction {
     public:
@@ -95,7 +81,6 @@ namespace ai
             return NextAction::merge( NextAction::array(0, new NextAction("defensive stance"), NULL), CastSpellAction::getPrerequisites());
         }
     };
-
     // defensive
     class CastShieldBlockAction : public CastBuffSpellAction {
     public:
@@ -104,52 +89,42 @@ namespace ai
 			return NextAction::merge( NextAction::array(0, new NextAction("defensive stance"), NULL), CastSpellAction::getPrerequisites());
 		}
     };
-
     // defensive
     class CastShieldWallAction : public CastDefensiveMeleeSpellAction {
     public:
         CastShieldWallAction(PlayerbotAI* ai) : CastDefensiveMeleeSpellAction(ai, "shield wall") {}
     };
-
     class CastBloodrageAction : public CastBuffSpellAction {
     public:
         CastBloodrageAction(PlayerbotAI* ai) : CastBuffSpellAction(ai, "bloodrage") {}
     };
-
 	class CastRecklessnessAction : public CastBuffSpellAction {
 	public:
 		CastRecklessnessAction(PlayerbotAI* ai) : CastBuffSpellAction(ai, "recklessness") {}
 	};
-
     // defensive
     class CastDevastateAction : public CastDefensiveMeleeSpellAction {
     public:
         CastDevastateAction(PlayerbotAI* ai) : CastDefensiveMeleeSpellAction(ai, "devastate") {}
     };
-
     // all
     class CastSlamAction : public CastMeleeSpellAction {
     public:
         CastSlamAction(PlayerbotAI* ai) : CastMeleeSpellAction(ai, "slam") {}
     };
-
 	class CastPummelAction : public CastMeleeSpellAction {
 	public:
 		CastPummelAction(PlayerbotAI* ai) : CastMeleeSpellAction(ai, "pummel") {}
 	};
-
 	// all
 	class CastShieldSlamAction : public CastMeleeSpellAction {
 	public:
 		CastShieldSlamAction(PlayerbotAI* ai) : CastMeleeSpellAction(ai, "shield slam") {}
 	};
-
     // after dodge
     BEGIN_MELEE_SPELL_ACTION(CastRevengeAction, "revenge")
         virtual NextAction** getPrerequisites();
     END_SPELL_ACTION()
-
-
     //debuffs
     BEGIN_DEBUFF_ACTION(CastRendAction, "rend")
     END_SPELL_ACTION()
@@ -190,22 +165,18 @@ namespace ai
 	public:
 		CastBattleShoutAction(PlayerbotAI* ai) : CastBuffSpellAction(ai, "battle shout") {}
 	};
-
 	class CastDefensiveStanceAction : public CastBuffSpellAction {
 	public:
 		CastDefensiveStanceAction(PlayerbotAI* ai) : CastBuffSpellAction(ai, "defensive stance") {}
 	};
-
 	class CastBerserkerStanceAction : public CastBuffSpellAction {
 	public:
 		CastBerserkerStanceAction(PlayerbotAI* ai) : CastBuffSpellAction(ai, "berserker stance") {}
 	};
-
 	class CastBattleStanceAction : public CastBuffSpellAction {
 	public:
 		CastBattleStanceAction(PlayerbotAI* ai) : CastBuffSpellAction(ai, "battle stance") {}
 	};
-
     BEGIN_RANGED_SPELL_ACTION(CastChargeAction, "charge")
     END_SPELL_ACTION()
 
@@ -213,23 +184,19 @@ namespace ai
 	public:
 		CastDeathWishAction(PlayerbotAI* ai) : CastBuffSpellAction(ai, "death wish") {}
 	};
-
 	class CastBerserkerRageAction : public CastBuffSpellAction {
 	public:
 		CastBerserkerRageAction(PlayerbotAI* ai) : CastBuffSpellAction(ai, "berserker rage") {}
 	};
-
 	class CastLastStandAction : public CastBuffSpellAction {
 	public:
 		CastLastStandAction(PlayerbotAI* ai) : CastBuffSpellAction(ai, "last stand") {}
 	};
-
 	// defensive
 	class CastConcussionBlowAction : public CastDefensiveMeleeSpellAction {
 	public:
 		CastConcussionBlowAction(PlayerbotAI* ai) : CastDefensiveMeleeSpellAction(ai, "concussion blow") {}
 	};
-
     class CastShieldBashOnEnemyHealerAction : public CastSpellOnEnemyHealerAction
     {
     public:
