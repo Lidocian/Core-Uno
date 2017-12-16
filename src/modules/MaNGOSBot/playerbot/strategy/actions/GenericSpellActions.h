@@ -257,6 +257,70 @@ namespace ai
     public:
         CastArcaneTorrentAction(PlayerbotAI* ai) : CastBuffSpellAction(ai, "arcane torrent") {}
     };
+	class CastCannibalizeAction : public CastHealingSpellAction
+	{
+	public:
+		CastCannibalizeAction(PlayerbotAI* ai) : CastHealingSpellAction(ai, "cannibalize") {}
+	};
+
+	class CastShadowmeldAction : public CastBuffSpellAction
+	{
+	public:
+		CastShadowmeldAction(PlayerbotAI* ai) : CastBuffSpellAction(ai, "shadowmeld") {}
+	};
+
+	class CastBerserkingAction : public CastBuffSpellAction
+	{
+	public:
+		CastBerserkingAction(PlayerbotAI* ai) : CastBuffSpellAction(ai, "berserking") {}
+	};
+
+	class CastBloodFuryAction : public CastBuffSpellAction
+	{
+	public:
+		CastBloodFuryAction(PlayerbotAI* ai) : CastBuffSpellAction(ai, "blood fury") {}
+	};
+
+	class CastStoneformAction : public CastBuffSpellAction
+	{
+	public:
+		CastStoneformAction(PlayerbotAI* ai) : CastBuffSpellAction(ai, "stoneform") {}
+	};
+
+	class CastPerceptionAction : public CastBuffSpellAction
+	{
+	public:
+		CastPerceptionAction(PlayerbotAI* ai) : CastBuffSpellAction(ai, "perception") {}
+	};
+
+	class CastFindTreasureAction : public CastBuffSpellAction
+	{
+	public:
+		CastFindTreasureAction(PlayerbotAI* ai) : CastBuffSpellAction(ai, "find treasure") {}
+	};
+	class CastManaTapAction : public CastBuffSpellAction
+	{
+	public:
+		CastManaTapAction(PlayerbotAI* ai) : CastBuffSpellAction(ai, "mana tap") {}
+	};
+
+	class CastWillOfTheForsakenAction : public CastBuffSpellAction
+	{
+	public:
+		CastWillOfTheForsakenAction(PlayerbotAI* ai) : CastBuffSpellAction(ai, "will of the forsaken") {}
+	};
+
+	class CastWarStompAction : public CastSpellAction
+	{
+	public:
+		CastWarStompAction(PlayerbotAI* ai) : CastSpellAction(ai, "war stomp") {}
+	};
+
+	class CastEscapeArtistAction : public CastBuffSpellAction
+	{
+	public:
+		CastEscapeArtistAction(PlayerbotAI* ai) : CastBuffSpellAction(ai, "escape artist") {}
+	};
 
     class CastSpellOnEnemyHealerAction : public CastSpellAction
     {
