@@ -3,17 +3,17 @@
 
 namespace ai
 {
-    BUFF_TRIGGER(BattleShoutTrigger, "battle shout", "battle shout")
+	BUFF_TRIGGER(BattleShoutTrigger, "battle shout", "battle shout")
 
-    DEBUFF_TRIGGER(RendDebuffTrigger, "rend", "rend")
-    DEBUFF_TRIGGER(DisarmDebuffTrigger, "disarm", "disarm")
-    DEBUFF_TRIGGER(SunderArmorDebuffTrigger, "sunder armor", "sunder armor")
+		DEBUFF_TRIGGER(RendDebuffTrigger, "rend", "rend")
+		DEBUFF_TRIGGER(DisarmDebuffTrigger, "disarm", "disarm")
+		DEBUFF_TRIGGER(SunderArmorDebuffTrigger, "sunder armor", "sunder armor")
 
-    class RendDebuffOnAttackerTrigger : public DebuffOnAttackerTrigger
-    {
-    public:
-        RendDebuffOnAttackerTrigger(PlayerbotAI* ai) : DebuffOnAttackerTrigger(ai, "rend") {}
-    };
+		class RendDebuffOnAttackerTrigger : public DebuffOnAttackerTrigger
+	{
+	public:
+		RendDebuffOnAttackerTrigger(PlayerbotAI* ai) : DebuffOnAttackerTrigger(ai, "rend") {}
+	};
 
 	class RevengeAvailableTrigger : public SpellCanBeCastTrigger
 	{
@@ -21,58 +21,100 @@ namespace ai
 		RevengeAvailableTrigger(PlayerbotAI* ai) : SpellCanBeCastTrigger(ai, "revenge") {}
 	};
 
-    class BloodrageDebuffTrigger : public DebuffTrigger
-    {
-    public:
-        BloodrageDebuffTrigger(PlayerbotAI* ai) : DebuffTrigger(ai, "bloodrage") {}
-        virtual bool IsActive()
-        {
-            return DebuffTrigger::IsActive() &&
-                AI_VALUE2(uint8, "health", "self target") >= 75 &&
-                AI_VALUE2(uint8, "rage", "self target") < 20;
-        }
-    };
+	class ShieldSlamAvailableTrigger : public SpellCanBeCastTrigger
+	{
+	public:
+		ShieldSlamAvailableTrigger(PlayerbotAI* ai) : SpellCanBeCastTrigger(ai, "shield slam") {}
+	};
 
-    class ShieldBashInterruptSpellTrigger : public InterruptSpellTrigger
-    {
-    public:
-        ShieldBashInterruptSpellTrigger(PlayerbotAI* ai) : InterruptSpellTrigger(ai, "shield bash") {}
-    };
+	class ShieldBlockAvailableTrigger : public SpellCanBeCastTrigger
+	{
+	public:
+		ShieldBlockAvailableTrigger(PlayerbotAI* ai) : SpellCanBeCastTrigger(ai, "shield block") {}
+	};
 
-    class VictoryRushTrigger : public HasAuraTrigger
-    {
-    public:
-        VictoryRushTrigger(PlayerbotAI* ai) : HasAuraTrigger(ai, "victory rush") {}
-    };
+	class ShieldBashAvailableTrigger : public SpellCanBeCastTrigger
+	{
+	public:
+		ShieldBashAvailableTrigger(PlayerbotAI* ai) : SpellCanBeCastTrigger(ai, "shield bash") {}
+	};
 
-    class SwordAndBoardTrigger : public HasAuraTrigger
-    {
-    public:
-        SwordAndBoardTrigger(PlayerbotAI* ai) : HasAuraTrigger(ai, "sword and board") {}
-    };
+	class BloodthirstAvailableTrigger : public SpellCanBeCastTrigger
+	{
+	public:
+		BloodthirstAvailableTrigger(PlayerbotAI* ai) : SpellCanBeCastTrigger(ai, "bloodthirst") {}
+	};
 
-    class ConcussionBlowTrigger : public SnareTargetTrigger
-    {
-    public:
-        ConcussionBlowTrigger(PlayerbotAI* ai) : SnareTargetTrigger(ai, "concussion blow") {}
-    };
+	class MortalStrikeAvailableTrigger : public SpellCanBeCastTrigger
+	{
+	public:
+		MortalStrikeAvailableTrigger(PlayerbotAI* ai) : SpellCanBeCastTrigger(ai, "mortal strike") {}
+	};
 
-    class HamstringTrigger : public SnareTargetTrigger
-    {
-    public:
-        HamstringTrigger(PlayerbotAI* ai) : SnareTargetTrigger(ai, "hamstring") {}
-    };
+	class WhirlwindAvailableTrigger : public SpellCanBeCastTrigger
+	{
+	public:
+		WhirlwindAvailableTrigger(PlayerbotAI* ai) : SpellCanBeCastTrigger(ai, "whirlwind") {}
+	};
 
-    class DeathWishTrigger : public BoostTrigger
-    {
-    public:
-        DeathWishTrigger(PlayerbotAI* ai) : BoostTrigger(ai, "death wish") {}
-    };
+	class OverpowerAvailableTrigger : public SpellCanBeCastTrigger
+	{
+	public:
+		OverpowerAvailableTrigger(PlayerbotAI* ai) : SpellCanBeCastTrigger(ai, "overpower") {}
+	};
 
-    class ShieldBashInterruptEnemyHealerSpellTrigger : public InterruptEnemyHealerTrigger
-    {
-    public:
-        ShieldBashInterruptEnemyHealerSpellTrigger(PlayerbotAI* ai) : InterruptEnemyHealerTrigger(ai, "shield bash") {}
-    };
+	class BloodrageDebuffTrigger : public DebuffTrigger
+	{
+	public:
+		BloodrageDebuffTrigger(PlayerbotAI* ai) : DebuffTrigger(ai, "bloodrage") {}
+		virtual bool IsActive()
+		{
+			return DebuffTrigger::IsActive() &&
+				AI_VALUE2(uint8, "health", "self target") >= 75 &&
+				AI_VALUE2(uint8, "rage", "self target") < 20;
+		}
+	};
+
+	class ShieldBashInterruptSpellTrigger : public InterruptSpellTrigger
+	{
+	public:
+		ShieldBashInterruptSpellTrigger(PlayerbotAI* ai) : InterruptSpellTrigger(ai, "shield bash") {}
+	};
+
+	class PummelInterruptSpellTrigger : public InterruptSpellTrigger
+	{
+	public:
+		PummelInterruptSpellTrigger(PlayerbotAI* ai) : InterruptSpellTrigger(ai, "pummel") {}
+	};
+
+	class ConcussionBlowTrigger : public SnareTargetTrigger
+	{
+	public:
+		ConcussionBlowTrigger(PlayerbotAI* ai) : SnareTargetTrigger(ai, "concussion blow") {}
+	};
+
+	class HamstringTrigger : public SnareTargetTrigger
+	{
+	public:
+		HamstringTrigger(PlayerbotAI* ai) : SnareTargetTrigger(ai, "hamstring") {}
+	};
+
+	class DeathWishTrigger : public BoostTrigger
+	{
+	public:
+		DeathWishTrigger(PlayerbotAI* ai) : BoostTrigger(ai, "death wish") {}
+	};
+
+	class SweepingStrikesTrigger : public BoostTrigger
+	{
+	public:
+		SweepingStrikesTrigger(PlayerbotAI* ai) : BoostTrigger(ai, "sweeping strikes") {}
+	};
+
+	class ShieldBashInterruptEnemyHealerSpellTrigger : public InterruptEnemyHealerTrigger
+	{
+	public:
+		ShieldBashInterruptEnemyHealerSpellTrigger(PlayerbotAI* ai) : InterruptEnemyHealerTrigger(ai, "shield bash") {}
+	};
 
 }
