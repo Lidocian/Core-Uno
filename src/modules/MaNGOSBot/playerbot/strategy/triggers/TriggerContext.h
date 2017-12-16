@@ -5,6 +5,7 @@
 #include "LootTriggers.h"
 #include "../triggers/GenericTriggers.h"
 //#include "LfgTriggers.h"
+#include "RacialsTriggers.h"
 
 namespace ai
 {
@@ -96,6 +97,17 @@ namespace ai
             creators["random bot update"] = &TriggerContext::random_bot_update_trigger;
             creators["no non bot players around"] = &TriggerContext::no_non_bot_players_around;
             creators["new player nearby"] = &TriggerContext::new_player_nearby;
+			//racials
+			creators["berserking"] = &TriggerContext::berserking;
+			creators["blood fury"] = &TriggerContext::blood_fury;
+			creators["rooted"] = &TriggerContext::rooted;
+			creators["WOtF"] = &TriggerContext::WOtF;
+			creators["cannibalize"] = &TriggerContext::cannibalize;
+			creators["war stomp"] = &TriggerContext::war_stomp;
+			creators["mana tap"] = &TriggerContext::mana_tap;
+			creators["arcane torrent"] = &TriggerContext::arcane_torrent;
+			creators["perception"] = &TriggerContext::perception;
+			
         }
 
     private:
@@ -164,6 +176,16 @@ namespace ai
         static Trigger* random_bot_update_trigger(PlayerbotAI* ai) { return new RandomBotUpdateTrigger(ai); }
         static Trigger* no_non_bot_players_around(PlayerbotAI* ai) { return new NoNonBotPlayersAroundTrigger(ai); }
         static Trigger* new_player_nearby(PlayerbotAI* ai) { return new NewPlayerNearbyTrigger(ai); }
+		//racials
+		static Trigger* berserking(PlayerbotAI* ai) { return new BerserkingTrigger(ai); }
+		static Trigger* blood_fury(PlayerbotAI* ai) { return new BloodFuryTrigger(ai); }
+		static Trigger* rooted(PlayerbotAI* ai) { return new RootedTrigger(ai); }
+		static Trigger* WOtF(PlayerbotAI* ai) { return new WOtFTrigger(ai); }
+		static Trigger* cannibalize(PlayerbotAI* ai) { return new CannibalizeTrigger(ai); }
+		static Trigger* war_stomp(PlayerbotAI* ai) { return new WarStompTrigger(ai); }
+		static Trigger* mana_tap(PlayerbotAI* ai) { return new ManaTapTrigger(ai); }
+		static Trigger* arcane_torrent(PlayerbotAI* ai) { return new ArcanetorrentTrigger(ai); }
+		static Trigger* perception(PlayerbotAI* ai) { return new PerceptionTrigger(ai); }
 
     };
 };
