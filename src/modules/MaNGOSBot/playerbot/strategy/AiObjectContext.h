@@ -67,10 +67,7 @@ namespace ai
     public:
         virtual void Update();
         virtual void Reset();
-        virtual void AddShared(NamedObjectContext<UntypedValue>* sharedValues)
-        {
-            valueContexts.Add(sharedValues);
-        }
+		virtual void AddShared(NamedObjectContext<UntypedValue>* sharedValues) { valueContexts.Add(sharedValues); }
 
     protected:
         NamedObjectContextList<Strategy> strategyContexts;
