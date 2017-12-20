@@ -731,7 +731,7 @@ bool PlayerbotAI::HasAura(string name, Unit* unit)
 
     wstrToLower(wnamepart);
 
-	for (uint32 auraType = SPELL_AURA_BIND_SIGHT; auraType < TOTAL_AURAS; auraType++)
+	for (uint32 auraType = SPELL_AURA_NONE; auraType < TOTAL_AURAS; auraType++)
 	{
 		Unit::AuraList const& auras = unit->GetAurasByType((AuraType)auraType);
 		for (Unit::AuraList::const_iterator i = auras.begin(); i != auras.end(); i++)
@@ -768,7 +768,8 @@ bool PlayerbotAI::HasAura(uint32 spellId, const Unit* unit)
 	return false;
 }
 
-bool PlayerbotAI::HasAuraCount(string name, Unit* unit, uint8 count = 1) {
+bool PlayerbotAI::HasAuraCount(string name, Unit* unit, uint8 count = 1) 
+{
 	if (!unit)
 		return false;
 
@@ -778,30 +779,37 @@ bool PlayerbotAI::HasAuraCount(string name, Unit* unit, uint8 count = 1) {
 
 	wstrToLower(wnamepart);
 
-	Unit::AuraApplicationMap& map = unit->GetAppliedAuras();
-	for (Unit::AuraApplicationMap::iterator i = map.begin(); i != map.end(); ++i)
+	for (uint32 type = SPELL_AURA_NONE; type < TOTAL_AURAS; ++type)
 	{
-		Aura const* aura = i->second->GetBase();
+		Unit::AuraList const& auras = unit->GetAurasByType((AuraType)type);
+		for (Unit::AuraList::const_iterator itr = auras.begin(); itr != auras.end(); ++itr)
+		{
+			const Aura* aura = *itr;
+			const SpellEntry* entry = aura->GetSpellProto();
+			uint32 spellId = entry->Id;
+		
 		if (!aura)
 			continue;
-
-		const string auraName = aura->GetSpellInfo()->SpellName[0];
+	    
+		const string auraName = aura->GetSpellProto()->SpellName[0];
 		if (auraName.empty() || auraName.length() != wnamepart.length() || !Utf8FitTo(auraName, wnamepart))
 			continue;
-
+		
 		if (IsRealAura(bot, aura, unit) && aura->GetStackAmount() >= count)
 			return true;
-	}
+	    }
 	return false;
+   }
 }
 
-bool PlayerbotAI::HasAuraCount(uint32 spellId, Unit* unit, uint8 count = 1) {
+bool PlayerbotAI::HasAuraCount(uint32 spellId, Unit* unit, uint8 count = 1) 
+{
 	if (!spellId || !unit)
 		return false;
 
-	for (uint32 effect = EFFECT_0; effect <= EFFECT_2; effect++)
+	for (uint32 effect = EFFECT_INDEX_0; effect <= EFFECT_INDEX_2; effect++)
 	{
-		Aura* aura = ((Unit*)unit)->GetAura(spellId);
+		Aura* aura = ((Unit*)unit)->GetAura(spellId, (SpellEffectIndex)effect);
 
 		if (IsRealAura(bot, aura, (Unit*)unit) && aura->GetStackAmount() >= count)
 			return true;
@@ -810,7 +818,8 @@ bool PlayerbotAI::HasAuraCount(uint32 spellId, Unit* unit, uint8 count = 1) {
 	return false;
 }
 
-uint8 PlayerbotAI::GetAuraCount(string name, Unit* unit) {
+uint8 PlayerbotAI::GetAuraCount(string name, Unit* unit) 
+{
 	if (!unit)
 		return 0;
 
@@ -820,30 +829,34 @@ uint8 PlayerbotAI::GetAuraCount(string name, Unit* unit) {
 
 	wstrToLower(wnamepart);
 
-	Unit::AuraApplicationMap& map = unit->GetAppliedAuras();
-	for (Unit::AuraApplicationMap::iterator i = map.begin(); i != map.end(); ++i)
+	for (uint32 type = SPELL_AURA_NONE; type < TOTAL_AURAS; ++type)
 	{
-		Aura const* aura = i->second->GetBase();
-		if (!aura)
-			continue;
-
-		const string auraName = aura->GetSpellInfo()->SpellName[0];
+		Unit::AuraList const& auras = unit->GetAurasByType((AuraType)type);
+		for (Unit::AuraList::const_iterator itr = auras.begin(); itr != auras.end(); ++itr)
+		{
+			const Aura* aura = *itr;
+			const SpellEntry* entry = aura->GetSpellProto();
+			uint32 spellId = entry->Id;
+			if (!aura)
+				continue;
+		const string auraName = aura->GetSpellProto()->SpellName[0];
 		if (auraName.empty() || auraName.length() != wnamepart.length() || !Utf8FitTo(auraName, wnamepart))
 			continue;
 
 		if (IsRealAura(bot, aura, unit))
 			return aura->GetStackAmount();
-	}
+	     }
 	return 0;
+    }
 }
 
 uint8 PlayerbotAI::GetAuraCount(uint32 spellId, Unit* unit) {
 	if (!spellId || !unit)
 		return false;
 
-	for (uint32 effect = EFFECT_0; effect <= EFFECT_2; effect++)
+	for (uint32 effect = EFFECT_INDEX_0; effect <= EFFECT_INDEX_2; effect++)
 	{
-		Aura* aura = ((Unit*)unit)->GetAura(spellId);
+		Aura* aura = ((Unit*)unit)->GetAura(spellId, (SpellEffectIndex)effect);
 
 		if (IsRealAura(bot, aura, (Unit*)unit))
 			return aura->GetStackAmount();
