@@ -126,8 +126,8 @@ namespace ai {
     };
 
 
-	class LifeBloomTrigger : public PartyMemberNeedCureTrigger {
+	class LifeBloomTrigger : public SpellTrigger {
 	public:
-		LifeBloomTrigger(PlayerbotAI* ai) : PartyMemberNeedCureTrigger(ai, "life bloom") {}
+		LifeBloomTrigger(PlayerbotAI* ai) : SpellTrigger(ai, "lifebloom") {}
 	};
 }
