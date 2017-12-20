@@ -232,6 +232,18 @@ namespace ai
 		virtual string GetTargetName() { return "self target"; }
         virtual bool IsActive();
     };
+	class StackingBuffTrigger : public SpellTrigger
+	{
+	private:
+		int m_StackCount;
+	public:
+		StackingBuffTrigger(PlayerbotAI* ai, string spell, int stackCount = 1, int checkInterval = 5) : SpellTrigger(ai, spell, checkInterval) { m_StackCount = stackCount; }
+		int GetStackCount() { return m_StackCount; }
+	public:
+		virtual string GetTargetName() { return "self target"; }
+		virtual bool IsActive();
+
+	};
 
     class BuffOnPartyTrigger : public BuffTrigger
     {
@@ -240,6 +252,15 @@ namespace ai
     public:
 		virtual Value<Unit*>* GetTargetValue();
     };
+	class StackingBuffOnPartyTrigger : public StackingBuffTrigger
+	{
+	public:
+		StackingBuffOnPartyTrigger(PlayerbotAI* ai, string spell, int stackCount = 1) : StackingBuffTrigger(ai, spell, stackCount) {}
+
+	public:
+		virtual Value<Unit*>* GetTargetValue();
+		virtual bool IsActive();
+	};
 
     BEGIN_TRIGGER(NoAttackersTrigger, Trigger)
     END_TRIGGER()

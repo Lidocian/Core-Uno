@@ -13,46 +13,134 @@ namespace ai
 		CastFaerieFireAction(PlayerbotAI* ai) : CastSpellAction(ai, "faerie fire") {}
 	};
 
-    class CastFaerieFireFeralAction : public CastSpellAction
-    {
-    public:
-        CastFaerieFireFeralAction(PlayerbotAI* ai) : CastSpellAction(ai, "faerie fire (feral)") {}
-    };
+	class CastFaerieFireFeralAction : public CastSpellAction
+	{
+	public:
+		CastFaerieFireFeralAction(PlayerbotAI* ai) : CastSpellAction(ai, "faerie fire (feral)") {}
+	};
 
+	class CastProwlAction : public CastSpellAction {
+	public:
+		CastProwlAction(PlayerbotAI* ai) : CastSpellAction(ai, "prowl") {}
+		virtual string GetTargetName() { return "self target"; }
+
+	};
+
+	// Target: Self 
+	// Healing: Rejuvenation (HoT)
+	//
 	class CastRejuvenationAction : public CastHealingSpellAction {
 	public:
 		CastRejuvenationAction(PlayerbotAI* ai) : CastHealingSpellAction(ai, "rejuvenation") {}
 	};
 
+	// Target: Self 
+	// Healing: Regrowth (HoT)
+	//
 	class CastRegrowthAction : public CastHealingSpellAction {
 	public:
 		CastRegrowthAction(PlayerbotAI* ai) : CastHealingSpellAction(ai, "regrowth") {}
-
 	};
 
-    class CastHealingTouchAction : public CastHealingSpellAction {
-    public:
-        CastHealingTouchAction(PlayerbotAI* ai) : CastHealingSpellAction(ai, "healing touch") {}
+	// Target: Self 
+	// Healing: Life Bloom (HoT)
+	//
+	class CastLifeBloomAction : public CastHealingSpellAction {
+	public:
+		CastLifeBloomAction(PlayerbotAI* ai) : CastHealingSpellAction(ai, "life bloom") {}
+	};
 
-    };
+	// Target: Self 
+	// Healing: Wild Growth (AoE HoT)
+	//
+	class CastWildGrowthAction : public CastHealingSpellAction {
+	public:
+		CastWildGrowthAction(PlayerbotAI* ai) : CastHealingSpellAction(ai, "wild growth") {}
+	};
 
-    class CastRejuvenationOnPartyAction : public HealPartyMemberAction
-    {
-    public:
-        CastRejuvenationOnPartyAction(PlayerbotAI* ai) : HealPartyMemberAction(ai, "rejuvenation") {}
-    };
+	// Target: Self 
+	// Healing: Nourish (Short cast heal after HoTs applied)
+	//
+	class CastNourishAction : public CastHealingSpellAction {
+	public:
+		CastNourishAction(PlayerbotAI* ai) : CastHealingSpellAction(ai, "nourish") {}
+	};
 
-    class CastRegrowthOnPartyAction : public HealPartyMemberAction
-    {
-    public:
-        CastRegrowthOnPartyAction(PlayerbotAI* ai) : HealPartyMemberAction(ai, "regrowth") {}
-    };
+	// Target: Self 
+	// Healing: Swiftmend (Talent Cooldown)
+	//
+	class CastSwiftmendAction : public CastHealingSpellAction {
+	public:
+		CastSwiftmendAction(PlayerbotAI* ai) : CastHealingSpellAction(ai, "swiftmend") {}
+	};
 
-    class CastHealingTouchOnPartyAction : public HealPartyMemberAction
-    {
-    public:
-        CastHealingTouchOnPartyAction(PlayerbotAI* ai) : HealPartyMemberAction(ai, "healing touch") {}
-    };
+	// Target: Self
+	// Healing: Healing Touch (Long cast)
+	//
+	class CastHealingTouchAction : public CastHealingSpellAction {
+	public:
+		CastHealingTouchAction(PlayerbotAI* ai) : CastHealingSpellAction(ai, "healing touch") {}
+	};
+
+	// Target: Party
+	// Healing: Rejuvenation (HoT)
+	//
+	class CastRejuvenationOnPartyAction : public HealPartyMemberAction
+	{
+	public:
+		CastRejuvenationOnPartyAction(PlayerbotAI* ai) : HealPartyMemberAction(ai, "rejuvenation") {}
+	};
+
+	// Target: Party
+	// Healing: Regrowth (HoT)
+	//
+	class CastRegrowthOnPartyAction : public HealPartyMemberAction
+	{
+	public:
+		CastRegrowthOnPartyAction(PlayerbotAI* ai) : HealPartyMemberAction(ai, "regrowth") {}
+	};
+
+	// Target: Party
+	// Healing: Life Bloom (HoT)
+	//
+	class CastLifeBloomOnPartyAction : public HealPartyMemberAction {
+	public:
+		CastLifeBloomOnPartyAction(PlayerbotAI* ai) : HealPartyMemberAction(ai, "life bloom") {}
+	};
+
+	//
+	// Healing: Wild Growth (Talent Cooldown: AoE Heal)
+	//
+	class CastWildGrowthOnPartyAction : public HealPartyMemberAction
+	{
+	public:
+		CastWildGrowthOnPartyAction(PlayerbotAI* ai) : HealPartyMemberAction(ai, "wild growth") {}
+	};
+
+	// Target: Party
+	// Healing: Nourish (Short cast after HoTs applied)
+	//
+	class CastNourishOnPartyAction : public HealPartyMemberAction {
+	public:
+		CastNourishOnPartyAction(PlayerbotAI* ai) : HealPartyMemberAction(ai, "nourish") {}
+	};
+
+	// Target: Party
+	// Healing: Swiftmend (Talent Cooldown)
+	//
+	class CastSwiftmendOnPartyAction : public HealPartyMemberAction {
+	public:
+		CastSwiftmendOnPartyAction(PlayerbotAI* ai) : HealPartyMemberAction(ai, "swiftmend") {}
+	};
+
+	// Target: Party
+	// Healing: Healing Touch (Large Cast)
+	//
+	class CastHealingTouchOnPartyAction : public HealPartyMemberAction
+	{
+	public:
+		CastHealingTouchOnPartyAction(PlayerbotAI* ai) : HealPartyMemberAction(ai, "healing touch") {}
+	};
 
 	class CastReviveAction : public ResurrectPartyMemberAction
 	{
@@ -60,7 +148,7 @@ namespace ai
 		CastReviveAction(PlayerbotAI* ai) : ResurrectPartyMemberAction(ai, "revive") {}
 
 		virtual NextAction** getPrerequisites() {
-			return NextAction::merge( NextAction::array(0, new NextAction("caster form"), NULL), ResurrectPartyMemberAction::getPrerequisites());
+			return NextAction::merge(NextAction::array(0, new NextAction("caster form"), NULL), ResurrectPartyMemberAction::getPrerequisites());
 		}
 	};
 
@@ -70,7 +158,7 @@ namespace ai
 		CastRebirthAction(PlayerbotAI* ai) : ResurrectPartyMemberAction(ai, "rebirth") {}
 
 		virtual NextAction** getPrerequisites() {
-			return NextAction::merge( NextAction::array(0, new NextAction("caster form"), NULL), ResurrectPartyMemberAction::getPrerequisites());
+			return NextAction::merge(NextAction::array(0, new NextAction("caster form"), NULL), ResurrectPartyMemberAction::getPrerequisites());
 		}
 	};
 
@@ -109,7 +197,7 @@ namespace ai
 	class CastHurricaneAction : public CastSpellAction
 	{
 	public:
-	    CastHurricaneAction(PlayerbotAI* ai) : CastSpellAction(ai, "hurricane") {}
+		CastHurricaneAction(PlayerbotAI* ai) : CastSpellAction(ai, "hurricane") {}
 	};
 
 	class CastMoonfireAction : public CastDebuffSpellAction
@@ -136,13 +224,13 @@ namespace ai
 		CastEntanglingRootsAction(PlayerbotAI* ai) : CastSpellAction(ai, "entangling roots") {}
 	};
 
-    class CastEntanglingRootsCcAction : public CastSpellAction
-    {
-    public:
-        CastEntanglingRootsCcAction(PlayerbotAI* ai) : CastSpellAction(ai, "entangling roots on cc") {}
-        virtual Value<Unit*>* GetTargetValue();
-        virtual bool Execute(Event event);
-    };
+	class CastEntanglingRootsCcAction : public CastSpellAction
+	{
+	public:
+		CastEntanglingRootsCcAction(PlayerbotAI* ai) : CastSpellAction(ai, "entangling roots on cc") {}
+		virtual Value<Unit*>* GetTargetValue();
+		virtual bool Execute(Event event);
+	};
 
 	class CastNaturesGraspAction : public CastBuffSpellAction
 	{
@@ -162,11 +250,11 @@ namespace ai
 		CastCurePoisonAction(PlayerbotAI* ai) : CastCureSpellAction(ai, "cure poison") {}
 	};
 
-    class CastCurePoisonOnPartyAction : public CurePartyMemberAction
-    {
-    public:
-        CastCurePoisonOnPartyAction(PlayerbotAI* ai) : CurePartyMemberAction(ai, "cure poison", DISPEL_POISON) {}
-    };
+	class CastCurePoisonOnPartyAction : public CurePartyMemberAction
+	{
+	public:
+		CastCurePoisonOnPartyAction(PlayerbotAI* ai) : CurePartyMemberAction(ai, "cure poison", DISPEL_POISON) {}
+	};
 
 	class CastAbolishPoisonAction : public CastCureSpellAction
 	{
@@ -175,31 +263,37 @@ namespace ai
 		virtual NextAction** getAlternatives();
 	};
 
-    class CastAbolishPoisonOnPartyAction : public CurePartyMemberAction
-    {
-    public:
-        CastAbolishPoisonOnPartyAction(PlayerbotAI* ai) : CurePartyMemberAction(ai, "abolish poison", DISPEL_POISON) {}
+	class CastAbolishPoisonOnPartyAction : public CurePartyMemberAction
+	{
+	public:
+		CastAbolishPoisonOnPartyAction(PlayerbotAI* ai) : CurePartyMemberAction(ai, "abolish poison", DISPEL_POISON) {}
 
-        virtual NextAction** getAlternatives();
-    };
+		virtual NextAction** getAlternatives();
+	};
 
-    class CastBarskinAction : public CastBuffSpellAction
-    {
-    public:
-        CastBarskinAction(PlayerbotAI* ai) : CastBuffSpellAction(ai, "barskin") {}
-    };
+	class CastFrenziedRegenerationAction : public CastBuffSpellAction
+	{
+	public:
+		CastFrenziedRegenerationAction(PlayerbotAI* ai) : CastBuffSpellAction(ai, "frenzied regeneration") {}
+	};
 
-    class CastInnervateAction : public CastSpellAction
-    {
-    public:
-        CastInnervateAction(PlayerbotAI* ai) : CastSpellAction(ai, "innervate") {}
+	class CastBarkskinAction : public CastBuffSpellAction
+	{
+	public:
+		CastBarkskinAction(PlayerbotAI* ai) : CastBuffSpellAction(ai, "barkskin") {}
+	};
 
-        virtual string GetTargetName() { return "self target"; }
-    };
+	class CastInnervateAction : public CastSpellAction
+	{
+	public:
+		CastInnervateAction(PlayerbotAI* ai) : CastSpellAction(ai, "innervate") {}
 
-    class CastTranquilityAction : public CastAoeHealSpellAction
-    {
-    public:
-        CastTranquilityAction(PlayerbotAI* ai) : CastAoeHealSpellAction(ai, "tranquility") {}
-    };
+		virtual string GetTargetName() { return "self target"; }
+	};
+
+	class CastTranquilityAction : public CastAoeHealSpellAction
+	{
+	public:
+		CastTranquilityAction(PlayerbotAI* ai) : CastAoeHealSpellAction(ai, "tranquility") {}
+	};
 }
