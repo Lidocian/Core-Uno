@@ -24,7 +24,9 @@ namespace ai
 
             creators["critical health"] = &TriggerContext::CriticalHealth;
             creators["low health"] = &TriggerContext::LowHealth;
+			creators["badly wounded"] = &TriggerContext::BadlyWounded;
             creators["medium health"] = &TriggerContext::MediumHealth;
+			creators["injured"] = &TriggerContext::Injured;
             creators["almost full health"] = &TriggerContext::AlmostFullHealth;
 
             creators["low mana"] = &TriggerContext::LowMana;
@@ -32,7 +34,9 @@ namespace ai
 
             creators["party member critical health"] = &TriggerContext::PartyMemberCriticalHealth;
             creators["party member low health"] = &TriggerContext::PartyMemberLowHealth;
+			creators["party member badly wounded"] = &TriggerContext::PartyMemberBadlyWounded;
             creators["party member medium health"] = &TriggerContext::PartyMemberMediumHealth;
+			creators["party member injured"] = &TriggerContext::PartyMemberInjured;
             creators["party member almost full health"] = &TriggerContext::PartyMemberAlmostFullHealth;
 
             creators["light rage available"] = &TriggerContext::LightRageAvailable;
@@ -132,10 +136,12 @@ namespace ai
         static Trigger* HighAoe(PlayerbotAI* ai) { return new HighAoeTrigger(ai); }
         static Trigger* LoseAggro(PlayerbotAI* ai) { return new LoseAggroTrigger(ai); }
         static Trigger* HasAggro(PlayerbotAI* ai) { return new HasAggroTrigger(ai); }
+		static Trigger* CriticalHealth(PlayerbotAI* ai) { return new CriticalHealthTrigger(ai); }
         static Trigger* LowHealth(PlayerbotAI* ai) { return new LowHealthTrigger(ai); }
+		static Trigger* BadlyWounded(PlayerbotAI* ai) { return new BadlyWoundedTrigger(ai); }
         static Trigger* MediumHealth(PlayerbotAI* ai) { return new MediumHealthTrigger(ai); }
+		static Trigger* Injured(PlayerbotAI* ai) { return new InjuredTrigger(ai); }
         static Trigger* AlmostFullHealth(PlayerbotAI* ai) { return new AlmostFullHealthTrigger(ai); }
-        static Trigger* CriticalHealth(PlayerbotAI* ai) { return new CriticalHealthTrigger(ai); }
         static Trigger* TargetCriticalHealth(PlayerbotAI* ai) { return new TargetCriticalHealthTrigger(ai); }
         static Trigger* LowMana(PlayerbotAI* ai) { return new LowManaTrigger(ai); }
         static Trigger* MediumMana(PlayerbotAI* ai) { return new MediumManaTrigger(ai); }
@@ -167,10 +173,12 @@ namespace ai
         static Trigger* MediumThreat(PlayerbotAI* ai) { return new MediumThreatTrigger(ai); }
         static Trigger* Dead(PlayerbotAI* ai) { return new DeadTrigger(ai); }
         static Trigger* PartyMemberDead(PlayerbotAI* ai) { return new PartyMemberDeadTrigger(ai); }
+		static Trigger* PartyMemberCriticalHealth(PlayerbotAI* ai) { return new PartyMemberCriticalHealthTrigger(ai); }
         static Trigger* PartyMemberLowHealth(PlayerbotAI* ai) { return new PartyMemberLowHealthTrigger(ai); }
+		static Trigger* PartyMemberBadlyWounded(PlayerbotAI* ai) { return new PartyMemberBadlyWoundedTrigger(ai); }
         static Trigger* PartyMemberMediumHealth(PlayerbotAI* ai) { return new PartyMemberMediumHealthTrigger(ai); }
+		static Trigger* PartyMemberInjured(PlayerbotAI* ai) { return new PartyMemberInjuredTrigger(ai); }
         static Trigger* PartyMemberAlmostFullHealth(PlayerbotAI* ai) { return new PartyMemberAlmostFullHealthTrigger(ai); }
-        static Trigger* PartyMemberCriticalHealth(PlayerbotAI* ai) { return new PartyMemberCriticalHealthTrigger(ai); }
         static Trigger* no_pet(PlayerbotAI* ai) { return new NoPetTrigger(ai); }
         static Trigger* has_attackers(PlayerbotAI* ai) { return new HasAttackersTrigger(ai); }
         static Trigger* random_bot_update_trigger(PlayerbotAI* ai) { return new RandomBotUpdateTrigger(ai); }

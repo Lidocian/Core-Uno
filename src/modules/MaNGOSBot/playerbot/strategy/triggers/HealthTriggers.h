@@ -35,7 +35,8 @@ namespace ai
 
 		virtual float GetValue();
 	};
-
+	
+	//low health
     class LowHealthTrigger : public HealthInRangeTrigger
     {
     public:
@@ -46,6 +47,7 @@ namespace ai
 		virtual string GetTargetName() { return "self target"; }
     };
 
+	//critical health
     class CriticalHealthTrigger : public LowHealthTrigger
     {
     public:
@@ -53,20 +55,38 @@ namespace ai
             LowHealthTrigger(ai, "critical health", sPlayerbotAIConfig.criticalHealth, 0) {}
     };
 
+	//badly wounded
+	class BadlyWoundedTrigger : public LowHealthTrigger
+	{
+	public:
+		BadlyWoundedTrigger(PlayerbotAI* ai) :
+			LowHealthTrigger(ai, "badly wounded", sPlayerbotAIConfig.badlyWounded, sPlayerbotAIConfig.lowHealth) {}
+	};
+
+	//medium health
     class MediumHealthTrigger : public LowHealthTrigger
     {
     public:
         MediumHealthTrigger(PlayerbotAI* ai) :
-            LowHealthTrigger(ai, "medium health", sPlayerbotAIConfig.mediumHealth, sPlayerbotAIConfig.lowHealth) {}
+            LowHealthTrigger(ai, "medium health", sPlayerbotAIConfig.mediumHealth, sPlayerbotAIConfig.badlyWounded) {}
     };
-
+	//injured
+	class InjuredTrigger : public LowHealthTrigger
+	{
+	public:
+		InjuredTrigger(PlayerbotAI* ai) :
+			LowHealthTrigger(ai, "injured", sPlayerbotAIConfig.injured, sPlayerbotAIConfig.mediumHealth) {}
+	};
+	//almost full health
     class AlmostFullHealthTrigger : public LowHealthTrigger
     {
     public:
         AlmostFullHealthTrigger(PlayerbotAI* ai) :
-            LowHealthTrigger(ai, "almost full health", sPlayerbotAIConfig.almostFullHealth, sPlayerbotAIConfig.mediumHealth) {}
+            LowHealthTrigger(ai, "almost full health", sPlayerbotAIConfig.almostFullHealth, sPlayerbotAIConfig.injured) {}
     };
 
+	///party members
+    //low health
     class PartyMemberLowHealthTrigger : public HealthInRangeTrigger
     {
     public:
@@ -76,25 +96,41 @@ namespace ai
         virtual string GetTargetName() { return "party member to heal"; }
     };
 
+	//critical health
     class PartyMemberCriticalHealthTrigger : public PartyMemberLowHealthTrigger
     {
     public:
         PartyMemberCriticalHealthTrigger(PlayerbotAI* ai) :
             PartyMemberLowHealthTrigger(ai, "party member critical health", sPlayerbotAIConfig.criticalHealth, 0) {}
     };
-
+	
+	//badly wounded
+	class PartyMemberBadlyWoundedTrigger : public PartyMemberLowHealthTrigger
+	{
+	public:
+		PartyMemberBadlyWoundedTrigger(PlayerbotAI* ai) :
+			PartyMemberLowHealthTrigger(ai, "party member badly wounded", sPlayerbotAIConfig.badlyWounded, sPlayerbotAIConfig.lowHealth) {}
+	};
+	//medium health
     class PartyMemberMediumHealthTrigger : public PartyMemberLowHealthTrigger
     {
     public:
         PartyMemberMediumHealthTrigger(PlayerbotAI* ai) :
-            PartyMemberLowHealthTrigger(ai, "party member medium health", sPlayerbotAIConfig.mediumHealth,sPlayerbotAIConfig.lowHealth) {}
+            PartyMemberLowHealthTrigger(ai, "party member medium health", sPlayerbotAIConfig.mediumHealth,sPlayerbotAIConfig.badlyWounded) {}
     };
-
+	//injured
+	class PartyMemberInjuredTrigger : public PartyMemberLowHealthTrigger
+	{
+	public:
+		PartyMemberInjuredTrigger(PlayerbotAI* ai) :
+			PartyMemberLowHealthTrigger(ai, "party member badly injured", sPlayerbotAIConfig.injured, sPlayerbotAIConfig.mediumHealth) {}
+	};
+	//almost full health
     class PartyMemberAlmostFullHealthTrigger : public PartyMemberLowHealthTrigger
     {
     public:
         PartyMemberAlmostFullHealthTrigger(PlayerbotAI* ai) :
-            PartyMemberLowHealthTrigger(ai, "party member almost full health", sPlayerbotAIConfig.almostFullHealth,sPlayerbotAIConfig.mediumHealth) {}
+            PartyMemberLowHealthTrigger(ai, "party member almost full health", sPlayerbotAIConfig.almostFullHealth,sPlayerbotAIConfig.injured) {}
     };
 
     class TargetLowHealthTrigger : public HealthInRangeTrigger {
