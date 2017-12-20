@@ -84,10 +84,12 @@ AiPlayerbot.CommandPrefix =
 #AiPlayerbot.FleeingEnabled = 1
 
 # Health/Mana levels
-#AiPlayerbot.CriticalHealth = 25
-#AiPlayerbot.LowHealth = 45
+#AiPlayerbot.CriticalHealth = 20
+#AiPlayerbot.LowHealth = 35
+#AiPlayerbot.BadlyWounded = 50
 #AiPlayerbot.MediumHealth = 65
-#AiPlayerbot.AlmostFullHealth = 85
+#AiPlayerbot.Injured = 80
+#AiPlayerbot.AlmostFullHealth = 95
 #AiPlayerbot.LowMana = 15
 #AiPlayerbot.MediumMana = 40
 

@@ -65,9 +65,11 @@ bool PlayerbotAIConfig::Initialize()
     aoeRadius = config.GetFloatDefault("AiPlayerbot.AoeRadius", 10.0f);
 
     criticalHealth = config.GetIntDefault("AiPlayerbot.CriticalHealth", 20);
-    lowHealth = config.GetIntDefault("AiPlayerbot.LowHealth", 50);
-    mediumHealth = config.GetIntDefault("AiPlayerbot.MediumHealth", 70);
-    almostFullHealth = config.GetIntDefault("AiPlayerbot.AlmostFullHealth", 85);
+    lowHealth = config.GetIntDefault("AiPlayerbot.LowHealth", 35);
+	badlyWounded = config.GetIntDefault("AiPlayerbot.BadlyWounded", 50);
+    mediumHealth = config.GetIntDefault("AiPlayerbot.MediumHealth", 65);
+	injured = config.GetIntDefault("AiPlayerbot.Injured", 80);
+    almostFullHealth = config.GetIntDefault("AiPlayerbot.AlmostFullHealth", 95);
     lowMana = config.GetIntDefault("AiPlayerbot.LowMana", 15);
     mediumMana = config.GetIntDefault("AiPlayerbot.MediumMana", 40);
 
@@ -189,8 +191,12 @@ string PlayerbotAIConfig::GetValue(string name)
         out << criticalHealth;
     else if (name == "LowHealth")
         out << lowHealth;
+	else if (name == "BadlyWounded")
+		out << badlyWounded;
     else if (name == "MediumHealth")
         out << mediumHealth;
+	else if (name == "Injured")
+		out << injured;
     else if (name == "AlmostFullHealth")
         out << almostFullHealth;
     else if (name == "LowMana")
@@ -228,8 +234,12 @@ void PlayerbotAIConfig::SetValue(string name, string value)
         out >> criticalHealth;
     else if (name == "LowHealth")
         out >> lowHealth;
+	else if (name == "BadlyWounded")
+		out >> badlyWounded;
     else if (name == "MediumHealth")
         out >> mediumHealth;
+	else if (name == "Injured")
+		out >> injured;
     else if (name == "AlmostFullHealth")
         out >> almostFullHealth;
     else if (name == "LowMana")
