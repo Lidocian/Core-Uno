@@ -779,21 +779,18 @@ bool PlayerbotAI::HasAuraCount(string name, Unit* unit, uint8 count = 1)
 
 	wstrToLower(wnamepart);
 
-	for (uint32 type = SPELL_AURA_NONE; type < TOTAL_AURAS; ++type)
+	for (uint32 auraType = SPELL_AURA_NONE; auraType < TOTAL_AURAS; auraType++)
 	{
-		Unit::AuraList const& auras = unit->GetAurasByType((AuraType)type);
-		for (Unit::AuraList::const_iterator itr = auras.begin(); itr != auras.end(); ++itr)
+		Unit::AuraList const& auras = unit->GetAurasByType((AuraType)auraType);
+		for (Unit::AuraList::const_iterator i = auras.begin(); i != auras.end(); i++)
 		{
-			const Aura* aura = *itr;
-			const SpellEntry* entry = aura->GetSpellProto();
-			uint32 spellId = entry->Id;
-		
-		if (!aura)
-			continue;
-	    
-		const string auraName = aura->GetSpellProto()->SpellName[0];
-		if (auraName.empty() || auraName.length() != wnamepart.length() || !Utf8FitTo(auraName, wnamepart))
-			continue;
+			Aura* aura = *i;
+			if (!aura)
+				continue;
+
+			const string auraName = aura->GetSpellProto()->SpellName[0];
+			if (auraName.empty() || auraName.length() != wnamepart.length() || !Utf8FitTo(auraName, wnamepart))
+				continue;
 		
 		if (IsRealAura(bot, aura, unit) && aura->GetStackAmount() >= count)
 			return true;
@@ -829,19 +826,18 @@ uint8 PlayerbotAI::GetAuraCount(string name, Unit* unit)
 
 	wstrToLower(wnamepart);
 
-	for (uint32 type = SPELL_AURA_NONE; type < TOTAL_AURAS; ++type)
+	for (uint32 auraType = SPELL_AURA_NONE; auraType < TOTAL_AURAS; auraType++)
 	{
-		Unit::AuraList const& auras = unit->GetAurasByType((AuraType)type);
-		for (Unit::AuraList::const_iterator itr = auras.begin(); itr != auras.end(); ++itr)
+		Unit::AuraList const& auras = unit->GetAurasByType((AuraType)auraType);
+		for (Unit::AuraList::const_iterator i = auras.begin(); i != auras.end(); i++)
 		{
-			const Aura* aura = *itr;
-			const SpellEntry* entry = aura->GetSpellProto();
-			uint32 spellId = entry->Id;
+			Aura* aura = *i;
 			if (!aura)
 				continue;
-		const string auraName = aura->GetSpellProto()->SpellName[0];
-		if (auraName.empty() || auraName.length() != wnamepart.length() || !Utf8FitTo(auraName, wnamepart))
-			continue;
+
+			const string auraName = aura->GetSpellProto()->SpellName[0];
+			if (auraName.empty() || auraName.length() != wnamepart.length() || !Utf8FitTo(auraName, wnamepart))
+				continue;
 
 		if (IsRealAura(bot, aura, unit))
 			return aura->GetStackAmount();
@@ -861,7 +857,6 @@ uint8 PlayerbotAI::GetAuraCount(uint32 spellId, Unit* unit) {
 		if (IsRealAura(bot, aura, (Unit*)unit))
 			return aura->GetStackAmount();
 	}
-
 	return 0;
 }
 
