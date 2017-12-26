@@ -1,14 +1,14 @@
 #include "botpch.h"
 #include "../../playerbot.h"
 #include "RogueMultipliers.h"
-#include "DpsRogueStrategy.h"
+#include "SubtletyRogueStrategy.h"
 
 using namespace ai;
 
-class DpsRogueStrategyActionNodeFactory : public NamedObjectFactory<ActionNode>
+class SubtletyRogueStrategyActionNodeFactory : public NamedObjectFactory<ActionNode>
 {
 public:
-    DpsRogueStrategyActionNodeFactory()
+	SubtletyRogueStrategyActionNodeFactory()
     {
         creators["riposte"] = &riposte;
         creators["mutilate"] = &mutilate;
@@ -70,17 +70,17 @@ private:
     }
 };
 
-DpsRogueStrategy::DpsRogueStrategy(PlayerbotAI* ai) : MeleeCombatStrategy(ai)
+SubtletyRogueStrategy::SubtletyRogueStrategy(PlayerbotAI* ai) : MeleeCombatStrategy(ai)
 {
-    actionNodeFactories.Add(new DpsRogueStrategyActionNodeFactory());
+    actionNodeFactories.Add(new SubtletyRogueStrategyActionNodeFactory());
 }
 
-NextAction** DpsRogueStrategy::getDefaultActions()
+NextAction** SubtletyRogueStrategy::getDefaultActions()
 {
     return NextAction::array(0, new NextAction("riposte", ACTION_NORMAL), NULL);
 }
 
-void DpsRogueStrategy::InitTriggers(std::list<TriggerNode*> &triggers)
+void SubtletyRogueStrategy::InitTriggers(std::list<TriggerNode*> &triggers)
 {
     MeleeCombatStrategy::InitTriggers(triggers);
 

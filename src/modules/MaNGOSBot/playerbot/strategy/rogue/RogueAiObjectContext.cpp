@@ -3,7 +3,9 @@
 #include "RogueActions.h"
 #include "RogueTriggers.h"
 #include "RogueAiObjectContext.h"
-#include "DpsRogueStrategy.h"
+#include "AssassinationRogueStrategy.h"
+#include "CombatRogueStrategy.h"
+#include "SubtletyRogueStrategy.h"
 #include "GenericRogueNonCombatStrategy.h"
 #include "../generic/PullStrategy.h"
 #include "../NamedObjectContext.h"
@@ -22,13 +24,17 @@ namespace ai
         public:
             StrategyFactoryInternal()
             {
-                creators["dps"] = &rogue::StrategyFactoryInternal::dps;
+				creators["assa dps"] = &rogue::StrategyFactoryInternal::assa_dps;
+				creators["combat dps"] = &rogue::StrategyFactoryInternal::combat_dps;
+				creators["sub dps"] = &rogue::StrategyFactoryInternal::sub_dps;
                 creators["nc"] = &rogue::StrategyFactoryInternal::nc;
                 creators["pull"] = &rogue::StrategyFactoryInternal::pull;
             }
 
         private:
-            static Strategy* dps(PlayerbotAI* ai) { return new DpsRogueStrategy(ai); }
+			static Strategy* assa_dps(PlayerbotAI* ai) { return new AssassinationRogueStrategy(ai); }
+			static Strategy* combat_dps(PlayerbotAI* ai) { return new CombatRogueStrategy(ai); }
+			static Strategy* sub_dps(PlayerbotAI* ai) { return new SubtletyRogueStrategy(ai); }
             static Strategy* nc(PlayerbotAI* ai) { return new GenericRogueNonCombatStrategy(ai); }
             static Strategy* pull(PlayerbotAI* ai) { return new PullStrategy(ai, "shoot"); }
         };

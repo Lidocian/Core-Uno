@@ -13,17 +13,29 @@ namespace ai
 	    }
 	};
 
+	class CastMutilateAction : public CastComboAction
+	{
+	public:
+		CastMutilateAction(PlayerbotAI* ai) : CastComboAction(ai, "mutilate") {}
+	};
+
 	class CastSinisterStrikeAction : public CastComboAction
 	{
 	public:
 		CastSinisterStrikeAction(PlayerbotAI* ai) : CastComboAction(ai, "sinister strike") {}
 	};
 
-    class CastMutilateAction : public CastComboAction
-    {
-    public:
-        CastMutilateAction(PlayerbotAI* ai) : CastComboAction(ai, "mutilate") {}
-    };
+	class CastHemorrhageAction : public CastComboAction
+	{
+	public:
+		CastHemorrhageAction(PlayerbotAI* ai) : CastComboAction(ai, "hemorrhage") {}
+	};
+
+	class CastBackstabAction : public CastComboAction
+	{
+	public:
+		CastBackstabAction(PlayerbotAI* ai) : CastComboAction(ai, "backstab") {}
+	};
 
     class CastRiposteAction : public CastComboAction
     {
@@ -36,10 +48,4 @@ namespace ai
 	public:
 		CastGougeAction(PlayerbotAI* ai) : CastComboAction(ai, "gouge") {}
 	};
-
-    class CastBackstabAction : public CastComboAction
-    {
-    public:
-        CastBackstabAction(PlayerbotAI* ai) : CastComboAction(ai, "backstab") {}
-    };
 }

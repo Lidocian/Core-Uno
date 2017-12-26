@@ -5,14 +5,14 @@
 
 namespace ai
 {
-    class DpsRogueStrategy : public MeleeCombatStrategy
+    class SubtletyRogueStrategy : public MeleeCombatStrategy
     {
     public:
-        DpsRogueStrategy(PlayerbotAI* ai);
+		SubtletyRogueStrategy(PlayerbotAI* ai);
 
     public:
         virtual void InitTriggers(std::list<TriggerNode*> &triggers);
-        virtual string getName() { return "dps"; }
+        virtual string getName() { return " sub dps"; }
         virtual NextAction** getDefaultActions();
     };
 }
