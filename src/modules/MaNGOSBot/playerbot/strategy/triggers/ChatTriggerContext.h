@@ -79,9 +79,11 @@ namespace ai
             creators["go"] = &ChatTriggerContext::go;
             creators["ready"] = &ChatTriggerContext::ready_check;
             creators["debug"] = &ChatTriggerContext::debug;
+			creators["stealth"] = &ChatTriggerContext::stealth;
         }
 
     private:
+		static Trigger* stealth(PlayerbotAI* ai) { return new ChatCommandTrigger(ai, "stealth"); }
         static Trigger* debug(PlayerbotAI* ai) { return new ChatCommandTrigger(ai, "debug"); }
         static Trigger* go(PlayerbotAI* ai) { return new ChatCommandTrigger(ai, "go"); }
         static Trigger* outfit(PlayerbotAI* ai) { return new ChatCommandTrigger(ai, "outfit"); }

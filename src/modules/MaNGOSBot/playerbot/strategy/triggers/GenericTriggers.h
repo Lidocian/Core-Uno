@@ -2,6 +2,7 @@
 #include "../Trigger.h"
 #include "../../PlayerbotAIConfig.h"
 
+
 #define BUFF_TRIGGER(clazz, spell, action) \
     class clazz : public BuffTrigger \
     { \
@@ -569,6 +570,20 @@ namespace ai
             return AI_VALUE(ObjectGuid, "new player nearby");
         }
     };
+
+	class StealthTrigger : public Trigger {
+	public:
+		StealthTrigger(PlayerbotAI* ai) : Trigger(ai, "stealth") {}
+		virtual bool IsActive()
+		{
+			return (!bot->IsInCombat());
+			{
+			return !ai->HasAura("stealth", bot); {
+			Unit* target = AI_VALUE(Unit*, "current target");
+			return target && AI_VALUE2(float, "distance", "current target") <= sPlayerbotAIConfig.spellDistance;}
+			}
+		}
+	};
 }
 
 #include "RangeTriggers.h"

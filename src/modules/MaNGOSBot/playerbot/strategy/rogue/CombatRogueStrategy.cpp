@@ -93,4 +93,6 @@ void CombatRogueStrategy::InitTriggers(std::list<TriggerNode*> &triggers)
 	triggers.push_back(new TriggerNode( "blind on enemy healer", NextAction::array(0, new NextAction("blind on enemy healer", ACTION_INTERRUPT + 1), NULL)));
 
 	triggers.push_back(new TriggerNode("light aoe", NextAction::array(0, new NextAction("blade flurry", ACTION_HIGH + 3), NULL)));
+	//stealth
+	triggers.push_back(new TriggerNode("stealth", NextAction::array(0, new NextAction("stealth", ACTION_HIGH), NULL)));
 }

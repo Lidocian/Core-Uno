@@ -79,4 +79,15 @@ namespace ai
     public:
         CastKickOnEnemyHealerAction(PlayerbotAI* ai) : CastSpellOnEnemyHealerAction(ai, "kick") {}
     };
+	class CastBlindOnEnemyHealerAction : public CastSpellOnEnemyHealerAction
+	{
+	public:
+		CastBlindOnEnemyHealerAction(PlayerbotAI* ai) : CastSpellOnEnemyHealerAction(ai, "blind") {}
+	};
+	class CastStealthAction : public CastBuffSpellAction
+	{
+	public:
+		CastStealthAction(PlayerbotAI* ai) : CastBuffSpellAction(ai, "stealth") {}
+		virtual string GetTargetName() { return "self target"; }
+	};
 }

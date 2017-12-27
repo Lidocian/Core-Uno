@@ -111,7 +111,8 @@ namespace ai
 			creators["mana tap"] = &TriggerContext::mana_tap;
 			creators["arcane torrent"] = &TriggerContext::arcane_torrent;
 			creators["perception"] = &TriggerContext::perception;
-			
+			//stealth/prowl
+			creators["stealth"] = &TriggerContext::stealth;
         }
 
     private:
@@ -194,6 +195,8 @@ namespace ai
 		static Trigger* mana_tap(PlayerbotAI* ai) { return new ManaTapTrigger(ai); }
 		static Trigger* arcane_torrent(PlayerbotAI* ai) { return new ArcanetorrentTrigger(ai); }
 		static Trigger* perception(PlayerbotAI* ai) { return new PerceptionTrigger(ai); }
+		//stealth/prowl
+		static Trigger* stealth(PlayerbotAI* ai) { return new StealthTrigger(ai); }
 
     };
 };

@@ -84,27 +84,12 @@ void SubtletyRogueStrategy::InitTriggers(std::list<TriggerNode*> &triggers)
 {
     MeleeCombatStrategy::InitTriggers(triggers);
 
-    triggers.push_back(new TriggerNode(
-        "combo points available",
-        NextAction::array(0, new NextAction("rupture", ACTION_HIGH + 2), NULL)));
-
-	triggers.push_back(new TriggerNode(
-		"medium threat",
-		NextAction::array(0, new NextAction("vanish", ACTION_HIGH), NULL)));
-
-	triggers.push_back(new TriggerNode(
-		"low health",
-		NextAction::array(0, new NextAction("evasion", ACTION_EMERGENCY), new NextAction("feint", ACTION_EMERGENCY), NULL)));
-
-	triggers.push_back(new TriggerNode(
-		"kick",
-		NextAction::array(0, new NextAction("kick", ACTION_INTERRUPT + 2), NULL)));
-
-	triggers.push_back(new TriggerNode(
-		"kick on enemy healer",
-		NextAction::array(0, new NextAction("kick on enemy healer", ACTION_INTERRUPT + 1), NULL)));
-
-    triggers.push_back(new TriggerNode(
-        "behind target",
-        NextAction::array(0, new NextAction("backstab", ACTION_NORMAL), NULL)));
+    triggers.push_back(new TriggerNode("combo points available", NextAction::array(0, new NextAction("rupture", ACTION_HIGH + 2), NULL)));
+	triggers.push_back(new TriggerNode("medium threat", NextAction::array(0, new NextAction("vanish", ACTION_HIGH), NULL)));
+	triggers.push_back(new TriggerNode("low health", NextAction::array(0, new NextAction("evasion", ACTION_EMERGENCY), new NextAction("feint", ACTION_EMERGENCY), NULL)));
+	triggers.push_back(new TriggerNode("kick", NextAction::array(0, new NextAction("kick", ACTION_INTERRUPT + 2), NULL)));
+	triggers.push_back(new TriggerNode("kick on enemy healer", NextAction::array(0, new NextAction("kick on enemy healer", ACTION_INTERRUPT + 1), NULL)));
+    triggers.push_back(new TriggerNode("behind target", NextAction::array(0, new NextAction("backstab", ACTION_NORMAL), NULL)));
+	//stealth
+	triggers.push_back(new TriggerNode("stealth", NextAction::array(0, new NextAction("stealth", ACTION_HIGH), NULL)));
 }

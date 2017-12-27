@@ -54,6 +54,8 @@
 #include "MailAction.h"
 #include "SendMailAction.h"
 #include "SkipSpellsListAction.h"
+#include "../strategy/druid/DruidActions.h"
+#include "../strategy/rogue/RogueActions.h"
 
 namespace ai
 {
@@ -125,9 +127,13 @@ namespace ai
             creators["mail"] = &ChatActionContext::mail;
             creators["go"] = &ChatActionContext::go;
             creators["debug"] = &ChatActionContext::debug;
+			creators["stealth"] = &ChatActionContext::stealth;
+			creators["stealth"] = &ChatActionContext::prowl;
         }
 
     private:
+		static Action* prowl(PlayerbotAI* ai) { return new CastProwlAction(ai); }
+		static Action* stealth(PlayerbotAI* ai) { return new CastStealthAction(ai); }
         static Action* debug(PlayerbotAI* ai) { return new DebugAction(ai); }
         static Action* mail(PlayerbotAI* ai) { return new MailAction(ai); }
         static Action* go(PlayerbotAI* ai) { return new GoAction(ai); }

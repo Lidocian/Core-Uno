@@ -202,4 +202,11 @@ namespace ai
     public:
         CastTranquilityAction(PlayerbotAI* ai) : CastAoeHealSpellAction(ai, "tranquility") {}
     };
+
+	class CastProwlAction : public CastSpellAction {
+	public:
+		CastProwlAction(PlayerbotAI* ai) : CastSpellAction(ai, "prowl") {}
+		virtual string GetTargetName() { return "self target"; }
+
+	};
 }
