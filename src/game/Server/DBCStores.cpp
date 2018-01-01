@@ -240,7 +240,7 @@ void LoadDBCStores(const std::string& dataPath)
 {
     std::string dbcPath = dataPath + "dbc/";
 
-    const uint32 DBCFilesCount = 66;
+    const uint32 DBCFilesCount = 68;
 
     BarGoLink bar(DBCFilesCount);
 
@@ -265,25 +265,25 @@ void LoadDBCStores(const std::string& dataPath)
         }
     }
 
-	LoadDBC(availableDbcLocales, bar, bad_dbc_files, sAreaTriggerStore, dbcPath, "AreaTrigger.dbc");
-	LoadDBC(availableDbcLocales, bar, bad_dbc_files, sAuctionHouseStore, dbcPath, "AuctionHouse.dbc");
-	LoadDBC(availableDbcLocales, bar, bad_dbc_files, sBankBagSlotPricesStore, dbcPath, "BankBagSlotPrices.dbc");
-	LoadDBC(availableDbcLocales, bar, bad_dbc_files, sBattlemasterListStore, dbcPath, "BattlemasterList.dbc");
-	LoadDBC(availableDbcLocales, bar, bad_dbc_files, sCharStartOutfitStore, dbcPath, "CharStartOutfit.dbc");
-	LoadDBC(availableDbcLocales, bar, bad_dbc_files, sCharTitlesStore, dbcPath, "CharTitles.dbc");
-	LoadDBC(availableDbcLocales, bar, bad_dbc_files, sChatChannelsStore, dbcPath, "ChatChannels.dbc");
-	LoadDBC(availableDbcLocales, bar, bad_dbc_files, sChrClassesStore, dbcPath, "ChrClasses.dbc");
-	LoadDBC(availableDbcLocales, bar, bad_dbc_files, sChrRacesStore, dbcPath, "ChrRaces.dbc");
-	LoadDBC(availableDbcLocales, bar, bad_dbc_files, sCinematicSequencesStore, dbcPath, "CinematicSequences.dbc");
-	LoadDBC(availableDbcLocales, bar, bad_dbc_files, sCreatureDisplayInfoStore, dbcPath, "CreatureDisplayInfo.dbc");
-	LoadDBC(availableDbcLocales, bar, bad_dbc_files, sCreatureDisplayInfoExtraStore, dbcPath, "CreatureDisplayInfoExtra.dbc");
-	LoadDBC(availableDbcLocales, bar, bad_dbc_files, sCreatureFamilyStore, dbcPath, "CreatureFamily.dbc");
-	LoadDBC(availableDbcLocales, bar, bad_dbc_files, sCreatureSpellDataStore, dbcPath, "CreatureSpellData.dbc");
-	LoadDBC(availableDbcLocales, bar, bad_dbc_files, sCreatureTypeStore, dbcPath, "CreatureType.dbc");
-	LoadDBC(availableDbcLocales, bar, bad_dbc_files, sDurabilityCostsStore, dbcPath, "DurabilityCosts.dbc");
-	LoadDBC(availableDbcLocales, bar, bad_dbc_files, sDurabilityQualityStore, dbcPath, "DurabilityQuality.dbc");
-	LoadDBC(availableDbcLocales, bar, bad_dbc_files, sEmotesStore, dbcPath, "Emotes.dbc");
-	LoadDBC(availableDbcLocales, bar, bad_dbc_files, sEmotesTextStore, dbcPath, "EmotesText.dbc");
+    LoadDBC(availableDbcLocales, bar, bad_dbc_files, sAreaTriggerStore,         dbcPath, "AreaTrigger.dbc");
+    LoadDBC(availableDbcLocales, bar, bad_dbc_files, sAuctionHouseStore,        dbcPath, "AuctionHouse.dbc");
+    LoadDBC(availableDbcLocales, bar, bad_dbc_files, sBankBagSlotPricesStore,   dbcPath, "BankBagSlotPrices.dbc");
+    LoadDBC(availableDbcLocales, bar, bad_dbc_files, sBattlemasterListStore,    dbcPath, "BattlemasterList.dbc");
+    LoadDBC(availableDbcLocales, bar, bad_dbc_files, sCharStartOutfitStore,     dbcPath, "CharStartOutfit.dbc");
+    LoadDBC(availableDbcLocales, bar, bad_dbc_files, sCharTitlesStore,          dbcPath, "CharTitles.dbc");
+    LoadDBC(availableDbcLocales, bar, bad_dbc_files, sChatChannelsStore,        dbcPath, "ChatChannels.dbc");
+    LoadDBC(availableDbcLocales, bar, bad_dbc_files, sChrClassesStore,          dbcPath, "ChrClasses.dbc");
+    LoadDBC(availableDbcLocales, bar, bad_dbc_files, sChrRacesStore,            dbcPath, "ChrRaces.dbc");
+    LoadDBC(availableDbcLocales, bar, bad_dbc_files, sCinematicSequencesStore,  dbcPath, "CinematicSequences.dbc");
+    LoadDBC(availableDbcLocales, bar, bad_dbc_files, sCreatureDisplayInfoStore, dbcPath, "CreatureDisplayInfo.dbc");
+    LoadDBC(availableDbcLocales, bar, bad_dbc_files, sCreatureDisplayInfoExtraStore, dbcPath, "CreatureDisplayInfoExtra.dbc");
+    LoadDBC(availableDbcLocales, bar, bad_dbc_files, sCreatureFamilyStore,      dbcPath, "CreatureFamily.dbc");
+    LoadDBC(availableDbcLocales, bar, bad_dbc_files, sCreatureSpellDataStore,   dbcPath, "CreatureSpellData.dbc");
+    LoadDBC(availableDbcLocales, bar, bad_dbc_files, sCreatureTypeStore,        dbcPath, "CreatureType.dbc");
+    LoadDBC(availableDbcLocales, bar, bad_dbc_files, sDurabilityCostsStore,     dbcPath, "DurabilityCosts.dbc");
+    LoadDBC(availableDbcLocales, bar, bad_dbc_files, sDurabilityQualityStore,   dbcPath, "DurabilityQuality.dbc");
+    LoadDBC(availableDbcLocales, bar, bad_dbc_files, sEmotesStore,              dbcPath, "Emotes.dbc");
+    LoadDBC(availableDbcLocales, bar, bad_dbc_files, sEmotesTextStore,          dbcPath, "EmotesText.dbc");
 	LoadDBC(availableDbcLocales, bar, bad_dbc_files, sEmotesTextSoundStore, dbcPath, "EmotesTextSound.dbc");
 	for (uint32 i = 0; i < sEmotesTextSoundStore.GetNumRows(); ++i)
 		if (EmotesTextSoundEntry const* entry = sEmotesTextSoundStore.LookupEntry(i))
@@ -293,16 +293,16 @@ void LoadDBCStores(const std::string& dataPath)
 		if (CharSectionsEntry const* entry = sCharSectionsStore.LookupEntry(i))
 			if (entry->Race && ((1 << (entry->Race - 1)) & RACEMASK_ALL_PLAYABLE) != 0) //ignore Nonplayable races
 				sCharSectionMap.insert({ entry->GenType | (entry->Gender << 8) | (entry->Race << 16), entry });
-	LoadDBC(availableDbcLocales, bar, bad_dbc_files, sFactionStore, dbcPath, "Faction.dbc");
-	for (uint32 i = 0; i < sFactionStore.GetNumRows(); ++i)
-	{
-		FactionEntry const* faction = sFactionStore.LookupEntry(i);
-		if (faction && faction->team)
-		{
-			SimpleFactionsList& flist = sFactionTeamMap[faction->team];
-			flist.push_back(i);
-		}
-	}
+    LoadDBC(availableDbcLocales, bar, bad_dbc_files, sFactionStore,             dbcPath, "Faction.dbc");
+    for (uint32 i = 0; i < sFactionStore.GetNumRows(); ++i)
+    {
+        FactionEntry const* faction = sFactionStore.LookupEntry(i);
+        if (faction && faction->team)
+        {
+            SimpleFactionsList& flist = sFactionTeamMap[faction->team];
+            flist.push_back(i);
+        }
+    }
 
     LoadDBC(availableDbcLocales, bar, bad_dbc_files, sFactionTemplateStore,     dbcPath, "FactionTemplate.dbc");
     LoadDBC(availableDbcLocales, bar, bad_dbc_files, sGameObjectDisplayInfoStore, dbcPath, "GameObjectDisplayInfo.dbc");
