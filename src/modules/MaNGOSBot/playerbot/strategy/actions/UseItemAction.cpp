@@ -1,11 +1,9 @@
-#include "pchdef.h"
+#include "botpch.h"
 #include "../../playerbot.h"
 #include "UseItemAction.h"
-#include "DBCStore.h"
-
+#include "../../PlayerbotAIConfig.h"
 
 using namespace ai;
-
 
 bool UseItemAction::Execute(Event event)
 {
@@ -21,8 +19,8 @@ bool UseItemAction::Execute(Event event)
 		if (items.size() > 1)
 		{
 			list<Item*>::iterator i = items.begin();
-			Item* itemTarget = *i++;
-			Item* item = *i;
+			Item* item = *i++;
+			Item* itemTarget = *i;
 			return UseItemOnItem(item, itemTarget);
 		}
 		else if (!items.empty())
@@ -48,7 +46,7 @@ bool UseItemAction::UseGameObject(ObjectGuid guid)
 
 	go->Use(bot);
 	ostringstream out; out << "Using " << chat->formatGameobject(go);
-	ai->TellMaster(out);
+	ai->TellMasterNoFacing(out.str());
 	return true;
 }
 
@@ -75,16 +73,6 @@ bool UseItemAction::UseItem(Item* item, ObjectGuid goGuid, Item* itemTarget)
 	if (bot->IsNonMeleeSpellCasted(true))
 		return false;
 
-	if (bot->IsInCombat())
-	{
-		for (int i = 0; i < MAX_ITEM_PROTO_SPELLS; ++i)
-		{
-			SpellEntry const *spellInfo = sSpellStore.LookupEntry(item->GetProto()->Spells[i].SpellId);
-			if (spellInfo && IsNonCombatSpell(spellInfo))
-				return false;
-		}
-	}
-
 	uint8 bagIndex = item->GetBagSlot();
 	uint8 slot = item->GetSlot();
 	uint8 cast_count = 1;
@@ -93,8 +81,7 @@ bool UseItemAction::UseItem(Item* item, ObjectGuid goGuid, Item* itemTarget)
 	uint8 unk_flags = 0;
 
 	WorldPacket* const packet = new WorldPacket(CMSG_USE_ITEM, 1 + 1 + 1 + 4 + 8 + 4 + 1 + 8 + 1);
-	*packet << bagIndex << slot << cast_count << uint32(0) << item_guid
-		<< glyphIndex << unk_flags;
+	*packet << bagIndex << slot << cast_count;
 
 	bool targetSelected = false;
 	ostringstream out; out << "Using " << chat->formatItem(item->GetProto());
@@ -112,8 +99,9 @@ bool UseItemAction::UseItem(Item* item, ObjectGuid goGuid, Item* itemTarget)
 		GameObject* go = ai->GetGameObject(goGuid);
 		if (go && go->isSpawned())
 		{
-			uint32 targetFlag = TARGET_FLAG_OBJECT;
-			*packet << targetFlag << goGuid.WriteAsPacked();
+			uint16 targetFlag = TARGET_FLAG_OBJECT;
+			*packet << targetFlag;
+			packet->appendPackGUID(goGuid.GetRawValue());
 			out << " on " << chat->formatGameobject(go);
 			targetSelected = true;
 		}
@@ -121,8 +109,9 @@ bool UseItemAction::UseItem(Item* item, ObjectGuid goGuid, Item* itemTarget)
 
 	if (itemTarget)
 	{
-		uint32 targetFlag = TARGET_FLAG_ITEM;
-		*packet << targetFlag << itemTarget->GetPackGUID();
+		uint16 targetFlag = TARGET_FLAG_ITEM;
+		*packet << targetFlag;
+		packet->appendPackGUID(itemTarget->GetObjectGuid());
 		out << " on " << chat->formatItem(itemTarget->GetProto());
 		targetSelected = true;
 	}
@@ -136,7 +125,7 @@ bool UseItemAction::UseItem(Item* item, ObjectGuid goGuid, Item* itemTarget)
 			Unit* unit = ai->GetUnit(masterSelection);
 			if (unit)
 			{
-				uint32 targetFlag = TARGET_FLAG_UNIT;
+				uint16 targetFlag = TARGET_FLAG_UNIT;
 				*packet << targetFlag << masterSelection.WriteAsPacked();
 				out << " on " << unit->GetName();
 				targetSelected = true;
@@ -155,7 +144,7 @@ bool UseItemAction::UseItem(Item* item, ObjectGuid goGuid, Item* itemTarget)
 			*packet << uint32(0);
 			bot->GetSession()->QueuePacket(packet); // queue the packet to get around race condition
 			ostringstream out; out << "Got quest " << chat->formatQuest(qInfo);
-			ai->TellMaster(out);
+			ai->TellMasterNoFacing(out.str());
 			return true;
 		}
 	}
@@ -220,15 +209,23 @@ bool UseItemAction::UseItem(Item* item, ObjectGuid goGuid, Item* itemTarget)
 	if (!targetSelected)
 		return false;
 
-	if (item->GetProto()->Class == ITEM_CLASS_CONSUMABLE && item->GetProto()->SubClass == ITEM_SUBCLASS_FOOD)
+	ItemPrototype const* proto = item->GetProto();
+	if (proto->Class == ITEM_CLASS_CONSUMABLE && (proto->SubClass == ITEM_SUBCLASS_FOOD || proto->SubClass == ITEM_SUBCLASS_CONSUMABLE) &&
+		(proto->Spells[0].SpellCategory == 11 || proto->Spells[0].SpellCategory == 59))
 	{
 		if (bot->IsInCombat())
 			return false;
 
+		bot->addUnitState(UNIT_STAND_STATE_SIT);
+		ai->InterruptSpell();
 		ai->SetNextCheckDelay(30000);
 	}
+	  else
+	{
+		  ai->SetNextCheckDelay(sPlayerbotAIConfig.globalCoolDown);
+	}
 
-	ai->TellMaster(out);
+	ai->TellMasterNoFacing(out.str());
 	bot->GetSession()->QueuePacket(packet);
 	return true;
 }

@@ -98,14 +98,14 @@ void PlayerbotFactory::Randomize(bool incremental)
     ClearInventory();
     bot->SaveToDB();
 
-    //sLog.outDetail("Initializing quests...");
-    //InitQuests();
-    //// quest rewards boost bot level, so reduce back
-    //bot->SetLevel(level);
-    //ClearInventory();
-    //bot->SetUInt32Value(PLAYER_XP, 0);
-    //CancelAuras();
-    //bot->SaveToDB();
+    sLog.outDetail("Initializing quests...");
+    InitQuests();
+    // quest rewards boost bot level, so reduce back
+    bot->SetLevel(level);
+    ClearInventory();
+    bot->SetUInt32Value(PLAYER_XP, 0);
+    CancelAuras();
+    bot->SaveToDB();
 
     sLog.outDetail("Initializing spells (step 1)...");
     InitAvailableSpells();

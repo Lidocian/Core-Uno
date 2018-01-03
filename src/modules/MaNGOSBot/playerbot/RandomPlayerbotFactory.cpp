@@ -223,7 +223,7 @@ void RandomPlayerbotFactory::CreateRandomBots()
         sLog.outDebug( "Account %s created for random bots", accountName.c_str());
     }
 
-    LoginDatabase.PExecute("UPDATE account SET expansion = '%u' where username like '%s%%'", 2, sPlayerbotAIConfig.randomBotAccountPrefix.c_str());
+    LoginDatabase.PExecute("UPDATE account SET expansion = '%u' where username like '%s%%'", 1, sPlayerbotAIConfig.randomBotAccountPrefix.c_str());
 
     int totalRandomBotChars = 0;
     for (int accountNumber = 0; accountNumber < sPlayerbotAIConfig.randomBotAccountCount; ++accountNumber)

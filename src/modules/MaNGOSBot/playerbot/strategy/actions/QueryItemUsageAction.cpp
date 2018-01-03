@@ -35,7 +35,7 @@ bool QueryItemUsageAction::Execute(Event event)
         data >> suffixFactor;
         data >> itemRandomPropertyId;
         data >> count;
-        // data >> invCount; // [-ZERO] count of items in inventory
+        data >> invCount; 
 
         ItemPrototype const *item = sItemStorage.LookupEntry<ItemPrototype>(itemId);
         if (!item)
