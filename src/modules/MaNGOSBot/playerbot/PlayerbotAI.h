@@ -143,7 +143,7 @@ public:
     void InterruptSpell();
     void RemoveAura(string name);
     void RemoveShapeshift();
-    void WaitForSpellCast(Spell *spell);
+	void WaitForSpellCast(Spell *spell);
     bool PlaySound(uint32 emote);
 
     virtual bool CanCastSpell(string name, Unit* target);

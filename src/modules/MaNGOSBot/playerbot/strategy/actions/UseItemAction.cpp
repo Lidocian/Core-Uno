@@ -1,6 +1,7 @@
 #include "botpch.h"
 #include "../../playerbot.h"
 #include "UseItemAction.h"
+#include "DBCStore.h"
 #include "../../PlayerbotAIConfig.h"
 
 using namespace ai;
@@ -19,8 +20,8 @@ bool UseItemAction::Execute(Event event)
 		if (items.size() > 1)
 		{
 			list<Item*>::iterator i = items.begin();
-			Item* item = *i++;
-			Item* itemTarget = *i;
+			Item* itemTarget = *i++;
+			Item* item = *i;
 			return UseItemOnItem(item, itemTarget);
 		}
 		else if (!items.empty())
@@ -75,13 +76,14 @@ bool UseItemAction::UseItem(Item* item, ObjectGuid goGuid, Item* itemTarget)
 
 	uint8 bagIndex = item->GetBagSlot();
 	uint8 slot = item->GetSlot();
+	uint8 spell_count = 0;
 	uint8 cast_count = 1;
 	uint64 item_guid = item->GetObjectGuid().GetRawValue();
-	uint32 glyphIndex = 0;
-	uint8 unk_flags = 0;
+	//uint32 glyphIndex = 0;
+	//uint8 unk_flags = 0;
 
 	WorldPacket* const packet = new WorldPacket(CMSG_USE_ITEM, 1 + 1 + 1 + 4 + 8 + 4 + 1 + 8 + 1);
-	*packet << bagIndex << slot << cast_count;
+	*packet << bagIndex << slot << spell_count << cast_count << item_guid; //<< glyphIndex << unk_flags;
 
 	bool targetSelected = false;
 	ostringstream out; out << "Using " << chat->formatItem(item->GetProto());
@@ -99,7 +101,7 @@ bool UseItemAction::UseItem(Item* item, ObjectGuid goGuid, Item* itemTarget)
 		GameObject* go = ai->GetGameObject(goGuid);
 		if (go && go->isSpawned())
 		{
-			uint16 targetFlag = TARGET_FLAG_OBJECT;
+			uint32 targetFlag = TARGET_FLAG_OBJECT;
 			*packet << targetFlag;
 			packet->appendPackGUID(goGuid.GetRawValue());
 			out << " on " << chat->formatGameobject(go);
@@ -109,12 +111,25 @@ bool UseItemAction::UseItem(Item* item, ObjectGuid goGuid, Item* itemTarget)
 
 	if (itemTarget)
 	{
-		uint16 targetFlag = TARGET_FLAG_ITEM;
-		*packet << targetFlag;
-		packet->appendPackGUID(itemTarget->GetObjectGuid());
-		out << " on " << chat->formatItem(itemTarget->GetProto());
-		targetSelected = true;
+
+		if (item->GetProto()->Class == ITEM_CLASS_GEM)
+		{
+			bool fit = SocketItem(itemTarget, item) || SocketItem(itemTarget, item, true);
+			if (!fit)
+				ai->TellMaster("Socket does not fit");
+			return fit;
+		}
+		else
+		{
+
+		    uint32 targetFlag = TARGET_FLAG_ITEM;
+		    *packet << targetFlag;
+		    packet->appendPackGUID(itemTarget->GetObjectGuid());
+		    out << " on " << chat->formatItem(itemTarget->GetProto());
+		    targetSelected = true;
+		}
 	}
+	
 
 	Player* master = GetMaster();
 	if (!targetSelected && item->GetProto()->Class != ITEM_CLASS_CONSUMABLE && master)
@@ -125,7 +140,7 @@ bool UseItemAction::UseItem(Item* item, ObjectGuid goGuid, Item* itemTarget)
 			Unit* unit = ai->GetUnit(masterSelection);
 			if (unit)
 			{
-				uint16 targetFlag = TARGET_FLAG_UNIT;
+				uint32 targetFlag = TARGET_FLAG_UNIT;
 				*packet << targetFlag << masterSelection.WriteAsPacked();
 				out << " on " << unit->GetName();
 				targetSelected = true;
@@ -181,13 +196,13 @@ bool UseItemAction::UseItem(Item* item, ObjectGuid goGuid, Item* itemTarget)
 				if (selfOnly)
 					return false;
 
-				*packet << (uint16)TARGET_FLAG_TRADE_ITEM << (uint8)1 << (uint64)TRADE_SLOT_NONTRADED;
+				*packet << (uint32)TARGET_FLAG_TRADE_ITEM << (uint8)1 << (uint64)TRADE_SLOT_NONTRADED;
 				targetSelected = true;
 				out << " on traded item";
 			}
 			else
 			{
-				*packet << (uint16)TARGET_FLAG_ITEM;
+				*packet << (uint32)TARGET_FLAG_ITEM;
 				packet->appendPackGUID(itemForSpell->GetObjectGuid());
 				targetSelected = true;
 				out << " on " << chat->formatItem(itemForSpell->GetProto());
@@ -199,7 +214,7 @@ bool UseItemAction::UseItem(Item* item, ObjectGuid goGuid, Item* itemTarget)
 		}
 		else if (!goGuid && !itemTarget)
 		{
-			*packet << (uint16)TARGET_FLAG_SELF;
+			*packet << (uint32)TARGET_FLAG_SELF;
 			targetSelected = true;
 			out << " on self";
 		}
@@ -220,16 +235,15 @@ bool UseItemAction::UseItem(Item* item, ObjectGuid goGuid, Item* itemTarget)
 		ai->InterruptSpell();
 		ai->SetNextCheckDelay(30000);
 	}
-	  else
+	else
 	{
-		  ai->SetNextCheckDelay(sPlayerbotAIConfig.globalCoolDown);
+		ai->SetNextCheckDelay(sPlayerbotAIConfig.globalCoolDown);
 	}
 
 	ai->TellMasterNoFacing(out.str());
 	bot->GetSession()->QueuePacket(packet);
 	return true;
 }
-
 bool UseItemAction::SocketItem(Item* item, Item* gem, bool replace)
 {
 	WorldPacket* const packet = new WorldPacket(CMSG_SOCKET_GEMS);
@@ -286,8 +300,6 @@ bool UseItemAction::SocketItem(Item* item, Item* gem, bool replace)
 	}
 	return fits;
 }
-
-
 bool UseItemAction::isPossible()
 {
 	return getName() == "use" || AI_VALUE2(uint8, "item count", getName()) > 0;

@@ -10,31 +10,34 @@ using namespace ai;
 class FindPotionVisitor : public FindUsableItemVisitor
 {
 public:
-    FindPotionVisitor(Player* bot, uint32 effectId) : FindUsableItemVisitor(bot), effectId(effectId) {}
+	FindPotionVisitor(Player* bot, uint32 effectId) : FindUsableItemVisitor(bot), effectId(effectId) {}
 
-    virtual bool Accept(const ItemPrototype* proto)
-    {
-        if (proto->Class == ITEM_CLASS_CONSUMABLE && (proto->SubClass == ITEM_SUBCLASS_POTION || proto->SubClass == ITEM_SUBCLASS_FLASK))
-        {
-            for (int j = 0; j < MAX_ITEM_PROTO_SPELLS; j++)
-            {
+	virtual bool Accept(const ItemPrototype* proto)
+	{
+		if (proto->Class == ITEM_CLASS_CONSUMABLE &&
+			proto->SubClass == ITEM_SUBCLASS_POTION &&
+			proto->Spells[0].SpellCategory == 4)
+		{
+			for (int j = 0; j < MAX_ITEM_PROTO_SPELLS; j++)
+			{
 				const SpellEntry* const spellInfo = sSpellStore.LookupEntry(proto->Spells[j].SpellId);
 				if (!spellInfo)
-                    return false;
+					return false;
 
-                for (int i = 0 ; i < 3; i++)
-                {
-                    if (spellInfo->Effect[i] == effectId)
-                        return true;
-                }
-            }
-        }
-        return false;
-    }
+				for (int i = 0; i < 3; i++)
+				{
+					if (spellInfo->Effect[i] == effectId)
+						return true;
+				}
+			}
+		}
+		return false;
+	}
 
 private:
-    uint32 effectId;
+	uint32 effectId;
 };
+
 
 class FindFoodVisitor : public FindUsableItemVisitor
 {
@@ -46,9 +49,9 @@ public:
 
     virtual bool Accept(const ItemPrototype* proto)
     {
-        return proto->Class == ITEM_CLASS_CONSUMABLE &&
-            (proto->SubClass == ITEM_SUBCLASS_CONSUMABLE || proto->SubClass == ITEM_SUBCLASS_FOOD) &&
-            proto->Spells[0].SpellCategory == spellCategory;
+		return proto->Class == ITEM_CLASS_CONSUMABLE &&
+			proto->SubClass == ITEM_SUBCLASS_CONSUMABLE || proto->SubClass == ITEM_SUBCLASS_FOOD &&
+			proto->Spells[0].SpellCategory == spellCategory;
     }
 
 private:
@@ -124,7 +127,7 @@ void InventoryAction::TellItems(map<uint32, int> itemMap, map<uint32, bool> soul
     list<ItemPrototype const*> items;
     for (map<uint32, int>::iterator i = itemMap.begin(); i != itemMap.end(); i++)
     {
-        items.push_back(sObjectMgr.GetItemPrototype(i->first));
+		items.push_back(sItemStorage.LookupEntry<ItemPrototype>(i->first));
     }
 
     items.sort(compare_items);
@@ -148,6 +151,9 @@ void InventoryAction::TellItems(map<uint32, int> itemMap, map<uint32, bool> soul
             case ITEM_CLASS_WEAPON:
                 ai->TellMaster("--- weapon ---");
                 break;
+			case ITEM_CLASS_GEM:
+				ai->TellMaster("--- gem ---");
+				break;
             case ITEM_CLASS_ARMOR:
                 ai->TellMaster("--- armor ---");
                 break;
@@ -160,9 +166,15 @@ void InventoryAction::TellItems(map<uint32, int> itemMap, map<uint32, bool> soul
             case ITEM_CLASS_TRADE_GOODS:
                 ai->TellMaster("--- trade goods ---");
                 break;
+			case ITEM_CLASS_GENERIC:
+				ai->TellMaster("--- generic ---");
+				break;
             case ITEM_CLASS_RECIPE:
                 ai->TellMaster("--- recipe ---");
                 break;
+			case ITEM_CLASS_MONEY:
+				ai->TellMaster("--- money ---");
+				break;
             case ITEM_CLASS_QUIVER:
                 ai->TellMaster("--- quiver ---");
                 break;
@@ -172,13 +184,16 @@ void InventoryAction::TellItems(map<uint32, int> itemMap, map<uint32, bool> soul
             case ITEM_CLASS_KEY:
                 ai->TellMaster("--- keys ---");
                 break;
+			case ITEM_CLASS_PERMANENT:
+				ai->TellMaster("--- permanent ---");
+				break;
             case ITEM_CLASS_MISC:
                 ai->TellMaster("--- other ---");
                 break;
             }
         }
 
-        TellItem(proto, itemMap[proto->ItemId], soulbound[proto->ItemId]);
+		TellItem(proto, itemMap[proto->ItemId], soulbound[proto->ItemId]);
     }
 }
 
