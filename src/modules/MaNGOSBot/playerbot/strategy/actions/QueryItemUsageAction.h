@@ -13,7 +13,8 @@ namespace ai
     protected:
         uint32 GetCount(ItemPrototype const *item);
         string QueryItem(ItemPrototype const *item, uint32 count, uint32 total);
-        string QueryItemUsage(ItemPrototype const *item);
+        bool QueryLootedItemUsage(ItemPrototype const *item);
+		string QueryItemUsage(ItemPrototype const *item);
         string QueryItemPrice(ItemPrototype const *item);
         string QueryQuestItem(uint32 itemId, const Quest *questTemplate, const QuestStatusData *questStatus);
         string QueryQuestItem(uint32 itemId);

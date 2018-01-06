@@ -3,6 +3,7 @@
 #include "LootRollAction.h"
 
 
+
 using namespace ai;
 
 bool LootRollAction::Execute(Event event)
@@ -32,14 +33,23 @@ bool LootRollAction::Execute(Event event)
             if (!proto)
                 continue;
 
-            if (IsLootAllowed(itemId, bot->GetPlayerbotAI()))
+            switch (proto->Class)
             {
-                vote = ROLL_NEED;
+            case ITEM_CLASS_WEAPON:
+            case ITEM_CLASS_ARMOR:
+                if (QueryLootedItemUsage(proto))
+                    vote = ROLL_NEED;
+                else if (bot->HasSkill(SKILL_ENCHANTING))
+                    vote = ROLL_GREED;
+                break;
+            default:
+				if (IsLootAllowed(itemId, bot->GetPlayerbotAI()))
+                    vote = ROLL_NEED;
                 break;
             }
+            break;
         }
-    }
-
+}
     switch (group->GetLootMethod())
     {
     case MASTER_LOOT:
