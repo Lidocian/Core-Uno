@@ -26,6 +26,7 @@ uint32 PlayerbotFactory::tradeSkills[] =
     SKILL_HERBALISM,
     SKILL_MINING,
     SKILL_BLACKSMITHING,
+	SKILL_JEWELCRAFTING,
     SKILL_COOKING,
     SKILL_FIRST_AID,
     SKILL_FISHING
@@ -82,8 +83,12 @@ void PlayerbotFactory::Prepare()
 
 	if (!sPlayerbotAIConfig.randomBotShowHelmet)
 	{
-		bot->SetFlag(PLAYER_FLAGS, PLAYER_FLAGS_HIDE_HELM);
-		bot->SetFlag(PLAYER_FLAGS, PLAYER_FLAGS_HIDE_CLOAK);
+	bot->SetFlag(PLAYER_FLAGS, PLAYER_FLAGS_HIDE_HELM);
+	}
+
+	if (!sPlayerbotAIConfig.randomBotShowCloak)
+	{
+	bot->SetFlag(PLAYER_FLAGS, PLAYER_FLAGS_HIDE_CLOAK);
 	}
 }
 
@@ -143,8 +148,8 @@ void PlayerbotFactory::Randomize(bool incremental)
     sLog.outDetail("Initializing potions...");
     InitPotions();
 
-    sLog.outDetail("Initializing second equipment set...");
-    InitSecondEquipmentSet();
+    //sLog.outDetail("Initializing second equipment set...");
+    //InitSecondEquipmentSet();
 
     sLog.outDetail("Initializing inventory...");
     InitInventory();
@@ -771,7 +776,7 @@ bool PlayerbotFactory::IsDesiredReplacement(Item* item)
     return (int)bot->getLevel() - (int)proto->RequiredLevel > delta;
 }
 
-void PlayerbotFactory::InitSecondEquipmentSet()
+/*void PlayerbotFactory::InitSecondEquipmentSet()
 {
     if (bot->getClass() == CLASS_MAGE || bot->getClass() == CLASS_WARLOCK || bot->getClass() == CLASS_PRIEST)
         return;
@@ -863,7 +868,7 @@ void PlayerbotFactory::InitSecondEquipmentSet()
             }
         }
     }
-}
+}*/
 
 void PlayerbotFactory::InitBags()
 {
@@ -911,85 +916,81 @@ void PlayerbotFactory::InitBags()
 
 void PlayerbotFactory::EnchantItem(Item* item)
 {
-    if (urand(0, 100) < 100 * sPlayerbotAIConfig.randomGearLoweringChance)
-        return;
+	if (urand(0, 100) < 100 * sPlayerbotAIConfig.randomGearLoweringChance)
+		return;
 
-    if (bot->getLevel() < urand(40, 50))
-        return;
+	ItemPrototype const* proto = item->GetProto();
+	int32 itemLevel = proto->ItemLevel;
 
-    ItemPrototype const* proto = item->GetProto();
-    int32 itemLevel = proto->ItemLevel;
+	vector<uint32> ids;
+	for (int id = 0; id < sSpellStore.GetNumRows(); ++id)
+	{
+		SpellEntry const *entry = sSpellStore.LookupEntry(id);
+		if (!entry)
+			continue;
 
-    vector<uint32> ids;
-    for (uint32 id = 0; id < sSpellStore.GetNumRows(); ++id)
-    {
-        SpellEntry const *entry = sSpellStore.LookupEntry(id);
-        if (!entry)
-            continue;
+		int32 requiredLevel = (int32)entry->baseLevel;
+		if (requiredLevel && (requiredLevel > itemLevel || requiredLevel < itemLevel - 35))
+			continue;
 
-        int32 requiredLevel = (int32)entry->baseLevel;
-        if (requiredLevel && (requiredLevel > itemLevel || requiredLevel < itemLevel - 35))
-            continue;
+		if (entry->maxLevel && level > entry->maxLevel)
+			continue;
 
-        if (entry->maxLevel && level > entry->maxLevel)
-            continue;
+		uint32 spellLevel = entry->spellLevel;
+		if (spellLevel && (spellLevel > level || spellLevel < level - 10))
+			continue;
 
-        uint32 spellLevel = entry->spellLevel;
-        if (spellLevel && (spellLevel > level || spellLevel < level - 10))
-            continue;
+		for (int j = 0; j < 3; ++j)
+		{
+			if (entry->Effect[j] != SPELL_EFFECT_ENCHANT_ITEM)
+				continue;
 
-        for (int j = 0; j < 3; ++j)
-        {
-            if (entry->Effect[j] != SPELL_EFFECT_ENCHANT_ITEM)
-                continue;
+			uint32 enchant_id = entry->EffectMiscValue[j];
+			if (!enchant_id)
+				continue;
 
-            uint32 enchant_id = entry->EffectMiscValue[j];
-            if (!enchant_id)
-                continue;
+			SpellItemEnchantmentEntry const* enchant = sSpellItemEnchantmentStore.LookupEntry(enchant_id);
+			if (!enchant || enchant->slot != PERM_ENCHANTMENT_SLOT)
+				continue;
 
-            SpellItemEnchantmentEntry const* enchant = sSpellItemEnchantmentStore.LookupEntry(enchant_id);
-            if (!enchant || enchant->slot != PERM_ENCHANTMENT_SLOT)
-                continue;
+			uint8 sp = 0, ap = 0, tank = 0;
+			for (int i = 0; i < 3; ++i)
+			{
+				if (enchant->type[i] != ITEM_ENCHANTMENT_TYPE_STAT)
+					continue;
 
-			const SpellEntry *enchantSpell = sSpellStore.LookupEntry(enchant->spellid[0]);
-            if (!enchantSpell || (enchantSpell->spellLevel && enchantSpell->spellLevel > level))
-                continue;
+				AddItemStats(enchant->spellid[i], sp, ap, tank);
+			}
 
-            uint8 sp = 0, ap = 0, tank = 0;
-            for (int i = 0; i < 3; ++i)
-            {
-                if (enchant->type[i] != ITEM_ENCHANTMENT_TYPE_STAT)
-                    continue;
+			if (!CheckItemStats(sp, ap, tank))
+				continue;
 
-                AddItemStats(enchant->spellid[i], sp, ap, tank);
-            }
+			if (enchant->EnchantmentCondition && !bot->EnchantmentFitsRequirements(enchant->EnchantmentCondition, -1))
+				continue;
 
-            if (!CheckItemStats(sp, ap, tank))
-                continue;
+			if (!item->IsFitToSpellRequirements(entry))
+				continue;
 
-            if (!item->IsFitToSpellRequirements(entry))
-                continue;
+			ids.push_back(enchant_id);
+		}
+	}
 
-            ids.push_back(enchant_id);
-        }
-    }
+	if (ids.empty())
+	{
+		sLog.outDetail("%s: no enchantments found for item %d", bot->GetName(), item->GetProto()->ItemId);
+		return;
+	}
 
-    if (ids.empty())
-    {
-        sLog.outDebug(  "%s: no enchantments found for item %d", bot->GetName(), item->GetProto()->ItemId);
-        return;
-    }
+	int index = urand(0, ids.size() - 1);
+	uint32 id = ids[index];
 
-    int index = urand(0, ids.size() - 1);
-    uint32 id = ids[index];
+	SpellItemEnchantmentEntry const* enchant = sSpellItemEnchantmentStore.LookupEntry(id);
+	if (!enchant)
+		return;
 
-    SpellItemEnchantmentEntry const* enchant = sSpellItemEnchantmentStore.LookupEntry(id);
-    if (!enchant)
-        return;
-
-    bot->ApplyEnchantment(item, PERM_ENCHANTMENT_SLOT, false);
-    item->SetEnchantment(PERM_ENCHANTMENT_SLOT, id, 0, 0);
-    bot->ApplyEnchantment(item, PERM_ENCHANTMENT_SLOT, true);
+	bot->ApplyEnchantment(item, PERM_ENCHANTMENT_SLOT, false);
+	item->SetEnchantment(PERM_ENCHANTMENT_SLOT, id, 0, 0);
+	bot->ApplyEnchantment(item, PERM_ENCHANTMENT_SLOT, true);
 }
 
 bool PlayerbotFactory::CanEquipUnseenItem(uint8 slot, uint16 &dest, uint32 item)
@@ -1044,19 +1045,17 @@ void PlayerbotFactory::InitTradeSkills()
     SetRandomSkill(SKILL_FISHING);
     SetRandomSkill(SKILL_COOKING);
 
-    switch (urand(0, 3))
+    switch (urand(0, 2))
     {
     case 0:
         SetRandomSkill(SKILL_HERBALISM);
         SetRandomSkill(SKILL_ALCHEMY);
         break;
     case 1:
-        SetRandomSkill(SKILL_HERBALISM);
+        SetRandomSkill(SKILL_MINING);
+		SetRandomSkill(SKILL_JEWELCRAFTING);
         break;
     case 2:
-        SetRandomSkill(SKILL_MINING);
-        break;
-    case 3:
         SetRandomSkill(firstSkills[urand(0, firstSkills.size() - 1)]);
         SetRandomSkill(secondSkills[urand(0, secondSkills.size() - 1)]);
         break;
@@ -1291,40 +1290,46 @@ void AddPrevQuests(uint32 questId, list<uint32>& questIds)
 
 void PlayerbotFactory::InitQuests()
 {
-    if (classQuestIds.empty())
-    {
-        ObjectMgr::QuestMap const& questTemplates = sObjectMgr.GetQuestTemplates();
-        for (ObjectMgr::QuestMap::const_iterator i = questTemplates.begin(); i != questTemplates.end(); ++i)
-        {
-            uint32 questId = i->first;
-            Quest const *quest = i->second;
+	QueryResult *results = WorldDatabase.PQuery("SELECT entry, RequiredClasses, RequiredRaces FROM quest_template where QuestLevel = -1 and MinLevel <= '%u'",
+		bot->getLevel());
+	if (!results)
+		return;
 
-            if (!quest->GetRequiredClasses() || quest->IsRepeatable())
-                continue;
+	list<uint32> ids;
+	do
+	{
+		Field* fields = results->Fetch();
+		uint32 questId = fields[0].GetUInt32();
+		uint32 requiredClasses = fields[1].GetUInt32();
+		uint32 requiredRaces = fields[2].GetUInt32();
+		if ((requiredClasses & bot->getClassMask()) && (requiredRaces & bot->getRaceMask()))
+			ids.push_back(questId);
+	} while (results->NextRow());
 
-            AddPrevQuests(questId, classQuestIds);
-            classQuestIds.remove(questId);
-            classQuestIds.push_back(questId);
-        }
-    }
+	delete results;
 
-    int count = 0;
-    for (list<uint32>::iterator i = classQuestIds.begin(); i != classQuestIds.end(); ++i)
-    {
-        uint32 questId = *i;
-        Quest const *quest = sObjectMgr.GetQuestTemplate(questId);
+	for (int i = 0; i < 15; i++)
+	{
+		for (list<uint32>::iterator i = ids.begin(); i != ids.end(); ++i)
+		{
+			uint32 questId = *i;
+			Quest const *quest = sObjectMgr.GetQuestTemplate(questId);
 
-        if (!bot->SatisfyQuestClass(quest, false) ||
-                quest->GetMinLevel() > bot->getLevel() ||
-                !bot->SatisfyQuestRace(quest, false))
-            continue;
+			bot->SetQuestStatus(questId, QUEST_STATUS_NONE);
 
-        bot->SetQuestStatus(questId, QUEST_STATUS_COMPLETE);
-        bot->RewardQuest(quest, 0, bot, false);
-        if (!(count++ % 10))
-            ClearInventory();
-    }
-    ClearInventory();
+			if (!bot->SatisfyQuestClass(quest, false) ||
+				!bot->SatisfyQuestRace(quest, false) ||
+				!bot->SatisfyQuestStatus(quest, false))
+				continue;
+
+			if (quest->IsRepeatable())
+				continue;
+
+			bot->SetQuestStatus(questId, QUEST_STATUS_COMPLETE);
+			bot->RewardQuest(quest, 0, bot, false);
+			ClearInventory();
+		}
+	}
 }
 
 void PlayerbotFactory::ClearInventory()
@@ -1533,6 +1538,10 @@ void PlayerbotFactory::InitInventorySkill()
     if (bot->HasSkill(SKILL_MINING)) {
         StoreItem(2901, 1); // Mining Pick
     }
+	if (bot->HasSkill(SKILL_JEWELCRAFTING)) {
+		StoreItem(20815, 1); // Jeweler's Kit
+		StoreItem(20824, 1); // Simple Grinder
+	}
     if (bot->HasSkill(SKILL_BLACKSMITHING) || bot->HasSkill(SKILL_ENGINEERING)) {
         StoreItem(5956, 1); // Blacksmith Hammer
     }

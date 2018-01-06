@@ -393,6 +393,33 @@ void PlayerbotAI::DoNextAction()
 
     currentEngine->DoNextAction(NULL);
 
+	/*if (!bot->GetAurasByType(SPELL_AURA_MOD_FLIGHT_SPEED_MOUNTED).empty())
+	{
+		bot->m_movementInfo.SetMovementFlags((MovementFlags)(MOVEFLAG_FLYING | MOVEFLAG_CAN_FLY));
+
+		WorldPacket packet(CMSG_MOVE_SET_FLY);
+		packet << bot->GetObjectGuid().WriteAsPacked();
+		packet << bot->m_movementInfo;
+		bot->SetMover(bot);
+		bot->GetSession()->HandleMovementOpcodes(packet);
+	}
+
+		Player* master = GetMaster();
+	if (bot->IsMounted() && bot->IsFlying())
+	{
+		bot->m_movementInfo.SetMovementFlags((MovementFlags)(MOVEFLAG_FLYING | MOVEFLAG_CAN_FLY));
+
+		bot->SetSpeedRate(MOVE_FLIGHT, 1.0f, true);
+		bot->SetSpeedRate(MOVE_RUN, 1.0f, true);
+
+		if (master)
+		{
+			bot->SetSpeedRate(MOVE_FLIGHT, master->GetSpeedRate(MOVE_FLIGHT), true);
+			bot->SetSpeedRate(MOVE_RUN, master->GetSpeedRate(MOVE_FLIGHT), true);
+		}
+
+	}*/
+
     if (currentEngine != engines[BOT_STATE_DEAD] && !bot->IsAlive())
         ChangeEngine(BOT_STATE_DEAD);
 
@@ -998,24 +1025,25 @@ bool PlayerbotAI::CastSpell(uint32 spellId, Unit* target)
 
 void PlayerbotAI::WaitForSpellCast(Spell *spell)
 {
-    const SpellEntry* const pSpellInfo = spell->m_spellInfo;
+	const SpellEntry* const pSpellInfo = spell->m_spellInfo;
 
-    float castTime = spell->GetCastTime();
+	float castTime = spell->GetCastTime();
 	if (IsChanneledSpell(pSpellInfo))
-    {
-        int32 duration = GetSpellDuration(pSpellInfo);
-        if (duration > 0)
-            castTime += duration;
-    }
+	{
+		int32 duration = GetSpellDuration(pSpellInfo);
+		if (duration > 0)
+			castTime += duration;
+	}
 
-    castTime = ceil(castTime);
+	castTime = ceil(castTime);
 
-    uint32 globalCooldown = CalculateGlobalCooldown(pSpellInfo->Id);
-    if (castTime < globalCooldown)
-        castTime = globalCooldown;
+	uint32 globalCooldown = CalculateGlobalCooldown(pSpellInfo->Id);
+	if (castTime < globalCooldown)
+		castTime = globalCooldown;
 
-    SetNextCheckDelay(castTime + sPlayerbotAIConfig.reactDelay);
+	SetNextCheckDelay(castTime + sPlayerbotAIConfig.reactDelay);
 }
+
 
 void PlayerbotAI::InterruptSpell()
 {
@@ -1136,7 +1164,7 @@ bool PlayerbotAI::canDispel(const SpellEntry* entry, uint32 dispelType)
 
 bool IsAlliance(uint8 race)
 {
-    return race == RACE_HUMAN || race == RACE_DWARF || race == RACE_NIGHTELF ||
+    return race == RACE_HUMAN || race == RACE_DWARF || race == RACE_DRAENEI || race == RACE_NIGHTELF ||
             race == RACE_GNOME;
 }
 

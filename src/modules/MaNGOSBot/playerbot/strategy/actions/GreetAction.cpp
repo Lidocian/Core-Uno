@@ -11,6 +11,10 @@ GreetAction::GreetAction(PlayerbotAI* ai) : Action(ai, "greet")
 
 bool GreetAction::Execute(Event event)
 {
+
+	if (sPlayerbotAIConfig.enableGreet)
+	{
+ 
     ObjectGuid guid = AI_VALUE(ObjectGuid, "new player nearby");
     if (!guid || !guid.IsPlayer()) return false;
 
@@ -32,4 +36,6 @@ bool GreetAction::Execute(Event event)
     set<ObjectGuid>& alreadySeenPlayers = ai->GetAiObjectContext()->GetValue<set<ObjectGuid>& >("already seen players")->Get();
     alreadySeenPlayers.insert(guid);
     return true;
+	}
+
 }

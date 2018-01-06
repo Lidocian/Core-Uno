@@ -68,13 +68,13 @@ public:
     bool deleteRandomBotGuilds;
     std::list<uint32> randomBotGuilds;
 	bool randomBotShowHelmet;
-
+	bool randomBotShowCloak;
     bool guildTaskEnabled;
     uint32 minGuildTaskChangeTime, maxGuildTaskChangeTime;
     uint32 minGuildTaskAdvertisementTime, maxGuildTaskAdvertisementTime;
     uint32 minGuildTaskRewardTime, maxGuildTaskRewardTime;
     uint32 guildTaskAdvertCleanupTime;
-
+	bool enableGreet;
     uint32 iterationsPerTick;
 
     int commandServerPort;
