@@ -20,12 +20,12 @@ public:
     virtual ~PlayerbotHolder();
 
     void AddPlayerBot(uint64 guid, uint32 masterAccountId);
-	void HandlePlayerBotLoginCallback(QueryResult * dummy, SqlQueryHolder * holder);
+    void HandlePlayerBotLoginCallback(QueryResult * dummy, SqlQueryHolder * holder);
 
     void LogoutPlayerBot(uint64 guid);
-    Player* GetPlayerBot (uint64 guid) const;
+    Player* GetPlayerBot(uint64 guid) const;
     PlayerBotMap::const_iterator GetPlayerBotsBegin() const { return playerBots.begin(); }
-    PlayerBotMap::const_iterator GetPlayerBotsEnd()   const { return playerBots.end();   }
+    PlayerBotMap::const_iterator GetPlayerBotsEnd()   const { return playerBots.end(); }
 
     virtual void UpdateAIInternal(uint32 elapsed);
     void UpdateSessions(uint32 elapsed);

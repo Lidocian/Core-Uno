@@ -29,8 +29,8 @@ public:
         aoeRadius;
     uint32 criticalHealth, lowHealth, mediumHealth, almostFullHealth;
     uint32 lowMana, mediumMana;
-	uint32 InvLevel;
-	bool lootRestrictions;
+    uint32 InvLevel;
+    bool lootRestrictions;
     uint32 openGoSpell;
     bool randomBotAutologin;
     bool botAutologin;
@@ -50,7 +50,7 @@ public:
     uint32 minRandomBotPvpTime, maxRandomBotPvpTime;
     uint32 minRandomBotsPerInterval, maxRandomBotsPerInterval;
     uint32 minRandomBotsPriceChangeInterval, maxRandomBotsPriceChangeInterval;
-   // bool randomBotJoinLfg;
+    // bool randomBotJoinLfg;
     bool randomBotLoginAtStartup;
     uint32 randomBotTeleLevel;
     bool logInGroupOnly, logValuesPerTick;
@@ -69,7 +69,7 @@ public:
     std::list<uint32> randomBotGuilds;
     bool randomBotShowHelmet;
     bool randomBotShowCloak;
-	bool enableGreet;
+    bool enableGreet;
     bool guildTaskEnabled;
     uint32 minGuildTaskChangeTime, maxGuildTaskChangeTime;
     uint32 minGuildTaskAdvertisementTime, maxGuildTaskAdvertisementTime;

@@ -4,9 +4,9 @@
 
 namespace ai
 {
-	class UseItemAction : public Action {
-	public:
-		UseItemAction(PlayerbotAI* ai, string name = "use", bool selfOnly = false) : Action(ai, name), selfOnly(selfOnly) {}
+    class UseItemAction : public Action {
+    public:
+        UseItemAction(PlayerbotAI* ai, string name = "use", bool selfOnly = false) : Action(ai, name), selfOnly(selfOnly) {}
 
     public:
         virtual bool Execute(Event event);
@@ -17,7 +17,7 @@ namespace ai
         bool UseItemOnGameObject(Item* item, ObjectGuid go);
         bool UseItemOnItem(Item* item, Item* itemTarget);
         bool UseItem(Item* item, ObjectGuid go, Item* itemTarget);
-		bool SocketItem(Item * item, Item * gem, bool replace = false);
+        bool SocketItem(Item * item, Item * gem, bool replace = false);
         bool UseGameObject(ObjectGuid guid);
 
     private:

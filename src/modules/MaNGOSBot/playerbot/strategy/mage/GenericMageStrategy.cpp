@@ -111,51 +111,31 @@ void GenericMageStrategy::InitTriggers(std::list<TriggerNode*> &triggers)
 {
     RangedCombatStrategy::InitTriggers(triggers);
 
-    triggers.push_back(new TriggerNode(
-        "enemy too close for spell",
-        NextAction::array(0, new NextAction("flee", 49.0f), NULL)));
+    triggers.push_back(new TriggerNode("enemy too close for spell", NextAction::array(0, new NextAction("flee", 49.0f), NULL)));
 
-    triggers.push_back(new TriggerNode(
-        "enemy is close",
-        NextAction::array(0, new NextAction("frost nova", 50.0f), NULL)));
+    triggers.push_back(new TriggerNode("enemy is close", NextAction::array(0, new NextAction("frost nova", 50.0f), NULL)));
 
-    triggers.push_back(new TriggerNode(
-        "counterspell",
-        NextAction::array(0, new NextAction("counterspell", 40.0f), NULL)));
+    triggers.push_back(new TriggerNode("counterspell", NextAction::array(0, new NextAction("counterspell", 40.0f), NULL)));
 
-    triggers.push_back(new TriggerNode(
-        "counterspell on enemy healer",
-        NextAction::array(0, new NextAction("counterspell on enemy healer", 40.0f), NULL)));
+    triggers.push_back(new TriggerNode("counterspell on enemy healer", NextAction::array(0, new NextAction("counterspell on enemy healer", 40.0f), NULL)));
 
-	triggers.push_back(new TriggerNode(
-		"critical health",
-		NextAction::array(0, new NextAction("ice block", 80.0f), NULL)));
+    triggers.push_back(new TriggerNode("critical health", NextAction::array(0, new NextAction("ice block", 80.0f), NULL)));
 
     triggers.push_back(new TriggerNode(
         "polymorph",
         NextAction::array(0, new NextAction("polymorph", 30.0f), NULL)));
 
-	triggers.push_back(new TriggerNode(
-		"spellsteal",
-		NextAction::array(0, new NextAction("spellsteal", 40.0f), NULL)));
+    triggers.push_back(new TriggerNode("spellsteal", NextAction::array(0, new NextAction("spellsteal", 40.0f), NULL)));
 
-    triggers.push_back(new TriggerNode(
-        "medium threat",
-        NextAction::array(0, new NextAction("invisibility", 60.0f), NULL)));
+    triggers.push_back(new TriggerNode("medium threat", NextAction::array(0, new NextAction("invisibility", 60.0f), NULL)));
 
-    triggers.push_back(new TriggerNode(
-        "low mana",
-        NextAction::array(0, new NextAction("evocation", ACTION_EMERGENCY + 5), NULL)));
+    triggers.push_back(new TriggerNode("low mana", NextAction::array(0, new NextAction("evocation", ACTION_EMERGENCY + 5), NULL)));
 }
 
 void MageCureStrategy::InitTriggers(std::list<TriggerNode*> &triggers)
 {
-    triggers.push_back(new TriggerNode(
-        "remove curse",
-        NextAction::array(0, new NextAction("remove curse", 41.0f), NULL)));
+    triggers.push_back(new TriggerNode("remove curse", NextAction::array(0, new NextAction("remove curse", 41.0f), NULL)));
 
-    triggers.push_back(new TriggerNode(
-        "remove curse on party",
-        NextAction::array(0, new NextAction("remove curse on party", 40.0f), NULL)));
+    triggers.push_back(new TriggerNode("remove curse on party", NextAction::array(0, new NextAction("remove curse on party", 40.0f), NULL)));
 
 }

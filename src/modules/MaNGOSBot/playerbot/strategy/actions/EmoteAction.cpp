@@ -28,8 +28,8 @@ bool EmoteAction::Execute(Event event)
     else if (param.empty() || emotes.find(param) == emotes.end())
     {
         int index = rand() % emotes.size();
-		for (map<string, uint32>::iterator i = emotes.begin(); i != emotes.end() && index; ++i, --index)
-			emote = i->second;
+        for (map<string, uint32>::iterator i = emotes.begin(); i != emotes.end() && index; ++i, --index)
+            emote = i->second;
     }
     else
     {
@@ -37,8 +37,8 @@ bool EmoteAction::Execute(Event event)
     }
 
     Player* master = GetMaster();
-	if (master)
-	{
+    if (master)
+    {
         ObjectGuid masterSelection = master->GetSelectionGuid();
         if (masterSelection)
         {
@@ -49,7 +49,7 @@ bool EmoteAction::Execute(Event event)
                 bot->SetSelectionGuid(oldSelection);
             return true;
         }
-	}
+    }
 
     bot->HandleEmoteCommand(emote);
     return true;

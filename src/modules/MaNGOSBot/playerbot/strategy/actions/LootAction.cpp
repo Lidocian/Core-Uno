@@ -29,19 +29,19 @@ bool LootAction::Execute(Event event)
 
 enum ProfessionSpells
 {
-    ALCHEMY                      = 2259,
-    BLACKSMITHING                = 2018,
-    COOKING                      = 2550,
-    ENCHANTING                   = 7411,
-    ENGINEERING                  = 49383,
-    FIRST_AID                    = 3273,
-    FISHING                      = 7620,
-    HERB_GATHERING               = 2366,
-    INSCRIPTION                  = 45357,
-    JEWELCRAFTING                = 25229,
-    MINING                       = 2575,
-    SKINNING                     = 8613,
-    TAILORING                    = 3908
+    ALCHEMY = 2259,
+    BLACKSMITHING = 2018,
+    COOKING = 2550,
+    ENCHANTING = 7411,
+    ENGINEERING = 49383,
+    FIRST_AID = 3273,
+    FISHING = 7620,
+    HERB_GATHERING = 2366,
+    INSCRIPTION = 45357,
+    JEWELCRAFTING = 25229,
+    MINING = 2575,
+    SKINNING = 8613,
+    TAILORING = 3908
 };
 
 bool OpenLootAction::Execute(Event event)
@@ -127,15 +127,15 @@ uint32 OpenLootAction::GetOpeningSpell(LootObject& lootObject, GameObject* go)
     {
         uint32 spellId = itr->first;
 
-		if (itr->second.state == PLAYERSPELL_REMOVED || itr->second.disabled || IsPassiveSpell(spellId))
-			continue;
+        if (itr->second.state == PLAYERSPELL_REMOVED || itr->second.disabled || IsPassiveSpell(spellId))
+            continue;
 
-		if (spellId == MINING || spellId == HERB_GATHERING)
-			continue;
+        if (spellId == MINING || spellId == HERB_GATHERING)
+            continue;
 
-		const SpellEntry* pSpellInfo = sSpellStore.LookupEntry(spellId);
-		if (!pSpellInfo)
-			continue;
+        const SpellEntry* pSpellInfo = sSpellStore.LookupEntry(spellId);
+        if (!pSpellInfo)
+            continue;
 
         if (CanOpenLock(lootObject, pSpellInfo, go))
             return spellId;
@@ -146,8 +146,8 @@ uint32 OpenLootAction::GetOpeningSpell(LootObject& lootObject, GameObject* go)
         if (spellId == MINING || spellId == HERB_GATHERING)
             continue;
 
-		const SpellEntry* pSpellInfo = sSpellStore.LookupEntry(spellId);
-		if (!pSpellInfo)
+        const SpellEntry* pSpellInfo = sSpellStore.LookupEntry(spellId);
+        if (!pSpellInfo)
             continue;
 
         if (CanOpenLock(lootObject, pSpellInfo, go))
@@ -174,26 +174,26 @@ bool OpenLootAction::CanOpenLock(LootObject& lootObject, const SpellEntry* pSpel
 
         bool reqKey = false;                                    // some locks not have reqs
 
-        for(int j = 0; j < 8; ++j)
+        for (int j = 0; j < 8; ++j)
         {
-            switch(lockInfo->Type[j])
+            switch (lockInfo->Type[j])
             {
-            /*
-            case LOCK_KEY_ITEM:
+                /*
+                case LOCK_KEY_ITEM:
                 return true;
-            */
+                */
             case LOCK_KEY_SKILL:
-                {
-                    if(uint32(pSpellInfo->EffectMiscValue[effIndex]) != lockInfo->Index[j])
-                        continue;
+            {
+                if (uint32(pSpellInfo->EffectMiscValue[effIndex]) != lockInfo->Index[j])
+                    continue;
 
-                    uint32 skillId = SkillByLockType(LockType(lockInfo->Index[j]));
-                    if (skillId == SKILL_NONE)
-                        return true;
+                uint32 skillId = SkillByLockType(LockType(lockInfo->Index[j]));
+                if (skillId == SKILL_NONE)
+                    return true;
 
-                    if (CanOpenLock(skillId, lockInfo->Skill[j]))
-                        return true;
-                }
+                if (CanOpenLock(skillId, lockInfo->Skill[j]))
+                    return true;
+            }
             }
         }
     }
@@ -247,8 +247,8 @@ bool StoreLootAction::Execute(Event event)
         p.read_skip<uint32>();  // randomPropertyId
         p >> lootslot_type;     // 0 = can get, 1 = look only, 2 = master get
 
-		if (lootslot_type != LOOT_SLOT_NORMAL)
-			continue;
+        if (lootslot_type != LOOT_SLOT_NORMAL)
+            continue;
 
         if (loot_type != LOOT_SKINNING && !IsLootAllowed(itemid, ai))
             continue;
@@ -269,7 +269,7 @@ bool StoreLootAction::Execute(Event event)
             {
                 for (GroupReference *ref = group->GetFirstMember(); ref; ref = ref->next())
                 {
-                    if( ref->getSource() != bot)
+                    if (ref->getSource() != bot)
                         sGuildTaskMgr.CheckItemTask(itemid, itemcount, ref->getSource(), bot);
                 }
             }

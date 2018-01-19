@@ -5,23 +5,23 @@
 namespace ai
 {
     BEGIN_TRIGGER(HunterNoStingsActiveTrigger, Trigger)
-    END_TRIGGER()
+        END_TRIGGER()
 
-    class HunterAspectOfTheHawkTrigger : public BuffTrigger
+        class HunterAspectOfTheHawkTrigger : public BuffTrigger
     {
     public:
         HunterAspectOfTheHawkTrigger(PlayerbotAI* ai) : BuffTrigger(ai, "aspect of the hawk") {
-			checkInterval = 1;
-		}
+            checkInterval = 1;
+        }
     };
 
-	class HunterAspectOfTheWildTrigger : public BuffTrigger
-	{
-	public:
-		HunterAspectOfTheWildTrigger(PlayerbotAI* ai) : BuffTrigger(ai, "aspect of the wild") {
-			checkInterval = 1;
-		}
-	};
+    class HunterAspectOfTheWildTrigger : public BuffTrigger
+    {
+    public:
+        HunterAspectOfTheWildTrigger(PlayerbotAI* ai) : BuffTrigger(ai, "aspect of the wild") {
+            checkInterval = 1;
+        }
+    };
 
     class HunterAspectOfTheViperTrigger : public BuffTrigger
     {
@@ -38,17 +38,17 @@ namespace ai
     public:
         HunterAspectOfThePackTrigger(PlayerbotAI* ai) : BuffTrigger(ai, "aspect of the pack") {}
         virtual bool IsActive() {
-			return BuffTrigger::IsActive() && !ai->HasAura("aspect of the cheetah", GetTarget());
+            return BuffTrigger::IsActive() && !ai->HasAura("aspect of the cheetah", GetTarget());
         };
     };
 
     BEGIN_TRIGGER(HuntersPetDeadTrigger, Trigger)
-    END_TRIGGER()
+        END_TRIGGER()
 
-    BEGIN_TRIGGER(HuntersPetLowHealthTrigger, Trigger)
-    END_TRIGGER()
+        BEGIN_TRIGGER(HuntersPetLowHealthTrigger, Trigger)
+        END_TRIGGER()
 
-    class BlackArrowTrigger : public DebuffTrigger
+        class BlackArrowTrigger : public DebuffTrigger
     {
     public:
         BlackArrowTrigger(PlayerbotAI* ai) : DebuffTrigger(ai, "black arrow") {}
@@ -85,5 +85,5 @@ namespace ai
     };
 
     BEGIN_TRIGGER(HunterPetNotHappy, Trigger)
-    END_TRIGGER()
+        END_TRIGGER()
 }

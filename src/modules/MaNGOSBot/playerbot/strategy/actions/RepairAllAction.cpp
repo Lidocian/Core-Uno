@@ -19,7 +19,7 @@ bool RepairAllAction::Execute(Event event)
 
         bot->SetFacingToObject(unit);
 
-		uint8 guildBank;                                        // new in 2.3.2, bool that means from guild bank money
+        uint8 guildBank;                                        // new in 2.3.2, bool that means from guild bank money
 
         float discountMod = bot->GetReputationPriceDiscount(unit);
         uint32 totalCost = bot->DurabilityRepairAll(true, discountMod, (guildBank > 0));

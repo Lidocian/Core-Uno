@@ -27,17 +27,17 @@ enum DenyReason
 
 class PlayerbotSecurity
 {
-    public:
-        PlayerbotSecurity(Player* const bot);
+public:
+    PlayerbotSecurity(Player* const bot);
 
-	public:
-        PlayerbotSecurityLevel LevelFor(Player* from, DenyReason* reason = NULL, bool ignoreGroup = false);
-        bool CheckLevelFor(PlayerbotSecurityLevel level, bool silent, Player* from, bool ignoreGroup = false);
+public:
+    PlayerbotSecurityLevel LevelFor(Player* from, DenyReason* reason = NULL, bool ignoreGroup = false);
+    bool CheckLevelFor(PlayerbotSecurityLevel level, bool silent, Player* from, bool ignoreGroup = false);
 
-    private:
-        Player* const bot;
-        uint32 account;
-        map<uint64, map<string, time_t> > whispers;
+private:
+    Player* const bot;
+    uint32 account;
+    map<uint64, map<string, time_t> > whispers;
 };
 
 #endif

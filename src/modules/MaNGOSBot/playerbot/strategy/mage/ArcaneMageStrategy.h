@@ -14,5 +14,4 @@ namespace ai
         virtual string getName() { return "arcane"; }
         virtual NextAction** getDefaultActions();
     };
-
 }

@@ -44,8 +44,6 @@ void TankWarlockStrategy::InitTriggers(std::list<TriggerNode*> &triggers)
 {
     GenericWarlockStrategy::InitTriggers(triggers);
 
-    triggers.push_back(new TriggerNode(
-        "no pet",
-        NextAction::array(0, new NextAction("summon felguard", 50.0f), NULL)));
+    triggers.push_back(new TriggerNode("no pet", NextAction::array(0, new NextAction("summon felguard", 50.0f), NULL)));
 
 }

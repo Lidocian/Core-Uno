@@ -9,12 +9,12 @@ WorldLocation Formation::NullLocation = WorldLocation();
 
 bool IsSameLocation(WorldLocation const &a, WorldLocation const &b)
 {
-	return a.coord_x == b.coord_x && a.coord_y == b.coord_y && a.coord_z == b.coord_z && a.mapid == b.mapid;
+    return a.coord_x == b.coord_x && a.coord_y == b.coord_y && a.coord_z == b.coord_z && a.mapid == b.mapid;
 }
 
 bool Formation::IsNullLocation(WorldLocation const& loc)
 {
-	return IsSameLocation(loc, Formation::NullLocation);
+    return IsSameLocation(loc, Formation::NullLocation);
 }
 
 
@@ -82,7 +82,7 @@ namespace ai
                 return WorldLocation();
 
             float range = sPlayerbotAIConfig.lootDistance * (float)(rand() % 10) / 10;
-			float angle = GetFollowAngle();
+            float angle = GetFollowAngle();
             float x = master->GetPositionX() + cos(angle) * range;
             float y = master->GetPositionY() + sin(angle) * range;
             float z = master->GetPositionZ();
@@ -110,7 +110,7 @@ namespace ai
                 target = master;
 
             if (!target)
-				return Formation::NullLocation;
+                return Formation::NullLocation;
 
             switch (bot->getClass())
             {
@@ -165,7 +165,7 @@ namespace ai
 
             vector<Player*> players;
             GroupReference *gref = group->GetFirstMember();
-            while( gref )
+            while (gref)
             {
                 Player* member = gref->getSource();
                 if (member != master)
@@ -204,7 +204,7 @@ namespace ai
             vector<Player*> tanks;
             vector<Player*> dps;
             GroupReference *gref = group->GetFirstMember();
-            while( gref )
+            while (gref)
             {
                 Player* member = gref->getSource();
                 if (member != master)
@@ -264,10 +264,10 @@ float Formation::GetFollowAngle()
     {
         for (GroupReference *ref = group->GetFirstMember(); ref; ref = ref->next())
         {
-            if( ref->getSource() == master)
+            if (ref->getSource() == master)
                 continue;
 
-            if( ref->getSource() == bot)
+            if (ref->getSource() == bot)
                 index = total;
 
             total++;
@@ -285,7 +285,7 @@ bool SetFormationAction::Execute(Event event)
 {
     string formation = event.getParam();
 
-	Value<Formation*>* value = context->GetValue<Formation*>("formation");
+    Value<Formation*>* value = context->GetValue<Formation*>("formation");
     if (formation == "?" || formation.empty())
     {
         ostringstream str; str << "Formation: |cff00ff00" << value->Get()->getName();
@@ -367,7 +367,7 @@ WorldLocation MoveFormation::MoveLine(vector<Player*> line, float diff, float cx
             line.pop_back();
         }
 
-        WorldLocation loc = MoveSingleLine(singleLine, diff, x, y,cz, orientation, range);
+        WorldLocation loc = MoveSingleLine(singleLine, diff, x, y, cz, orientation, range);
         if (!Formation::IsNullLocation(loc))
             return loc;
     }

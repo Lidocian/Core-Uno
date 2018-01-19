@@ -29,7 +29,7 @@ bool QueryItemUsageAction::Execute(Event event)
         data >> created;                                // 0=received, 1=created
         data >> isShowChatMessage;                                      // IsShowChatMessage
         data >> bagSlot;
-                                                                // item slot, but when added to stack: 0xFFFFFFFF
+        // item slot, but when added to stack: 0xFFFFFFFF
         data >> notUsed;
         data >> itemId;
         data >> suffixFactor;
@@ -102,11 +102,11 @@ string QueryItemUsageAction::QueryItemUsage(ItemPrototype const *item)
         return "Tradeskill";
     case ITEM_USAGE_USE:
         return "Use";
-	case ITEM_USAGE_GUILD_TASK:
-		return "Guild task";
-	case ITEM_USAGE_DISENCHANT:
-		return "Disenchant";
-	}
+    case ITEM_USAGE_GUILD_TASK:
+        return "Guild task";
+    case ITEM_USAGE_DISENCHANT:
+        return "Disenchant";
+    }
 
     return "";
 }
@@ -154,8 +154,8 @@ string QueryItemUsageAction::QueryQuestItem(uint32 itemId)
     QuestStatusMap& questMap = bot->getQuestStatusMap();
     for (QuestStatusMap::const_iterator i = questMap.begin(); i != questMap.end(); i++)
     {
-        const Quest *questTemplate = sObjectMgr.GetQuestTemplate( i->first );
-        if( !questTemplate )
+        const Quest *questTemplate = sObjectMgr.GetQuestTemplate(i->first);
+        if (!questTemplate)
             continue;
 
         uint32 questId = questTemplate->GetQuestId();

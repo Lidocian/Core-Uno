@@ -151,7 +151,7 @@ bool ReadyCheckAction::Execute(Event event)
             return false;
     }
 
-	return ReadyCheck();
+    return ReadyCheck();
 }
 
 bool ReadyCheckAction::ReadyCheck()

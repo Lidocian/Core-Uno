@@ -40,23 +40,13 @@ void GenericHunterNonCombatStrategy::InitTriggers(std::list<TriggerNode*> &trigg
 {
     NonCombatStrategy::InitTriggers(triggers);
 
-    triggers.push_back(new TriggerNode(
-        "trueshot aura",
-        NextAction::array(0, new NextAction("trueshot aura", 2.0f), NULL)));
+    triggers.push_back(new TriggerNode("trueshot aura", NextAction::array(0, new NextAction("trueshot aura", 2.0f), NULL)));
 
-    triggers.push_back(new TriggerNode(
-        "no pet",
-        NextAction::array(0, new NextAction("call pet", 60.0f), NULL)));
+    triggers.push_back(new TriggerNode( "no pet", NextAction::array(0, new NextAction("call pet", 60.0f), NULL)));
 
-    triggers.push_back(new TriggerNode(
-        "hunters pet dead",
-        NextAction::array(0, new NextAction("revive pet", 60.0f), NULL)));
+    triggers.push_back(new TriggerNode("hunters pet dead", NextAction::array(0, new NextAction("revive pet", 60.0f), NULL)));
 
-    triggers.push_back(new TriggerNode(
-        "hunters pet low health",
-        NextAction::array(0, new NextAction("mend pet", 60.0f), NULL)));
+    triggers.push_back(new TriggerNode("hunters pet low health", NextAction::array(0, new NextAction("mend pet", 60.0f), NULL)));
 
-    triggers.push_back(new TriggerNode(
-        "pet not happy",
-        NextAction::array(0, new NextAction("feed pet", 60.0f), NULL)));
+    triggers.push_back(new TriggerNode("pet not happy", NextAction::array(0, new NextAction("feed pet", 60.0f), NULL)));
 }

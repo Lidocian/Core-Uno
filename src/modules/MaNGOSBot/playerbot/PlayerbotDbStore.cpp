@@ -105,7 +105,7 @@ string PlayerbotDbStore::FormatStrategies(string type, list<string> strategies)
     for(list<string>::iterator i = strategies.begin(); i != strategies.end(); ++i)
         out << "+" << (*i).c_str() << ",";
 
-	string res = out.str();
+    string res = out.str();
     return res.substr(0, res.size() - 1);
 }
 

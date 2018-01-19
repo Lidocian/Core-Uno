@@ -20,7 +20,7 @@ LootTarget::LootTarget(LootTarget const& other)
 
 LootTarget& LootTarget::operator=(LootTarget const& other)
 {
-    if((void*)this == (void*)&other)
+    if ((void*)this == (void*)&other)
         return *this;
 
     guid = other.guid;
@@ -40,13 +40,13 @@ void LootTargetList::shrink(time_t fromTime)
     {
         if (i->asOfTime <= fromTime)
             erase(i++);
-		else
-			++i;
+        else
+            ++i;
     }
 }
 
 LootObject::LootObject(Player* bot, ObjectGuid guid)
-	: guid(), skillId(SKILL_NONE), reqSkillValue(0), reqItem(0)
+    : guid(), skillId(SKILL_NONE), reqSkillValue(0), reqItem(0)
 {
     Refresh(bot, guid);
 }
@@ -237,4 +237,3 @@ vector<LootObject> LootObjectStack::OrderByDistance(float maxDistance)
         result.push_back(i->second);
     return result;
 }
-

@@ -122,5 +122,4 @@ namespace ai
                 /*C*/ NULL);
         }
     };
-
 }

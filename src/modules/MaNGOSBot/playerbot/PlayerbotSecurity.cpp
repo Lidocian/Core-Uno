@@ -40,7 +40,7 @@ PlayerbotSecurityLevel PlayerbotSecurity::LevelFor(Player* from, DenyReason* rea
                     return PLAYERBOT_SECURITY_ALLOW_ALL;
             }
         }
-		int InvLevel = sPlayerbotAIConfig.InvLevel;
+        int InvLevel = sPlayerbotAIConfig.InvLevel;
 
         if ((int)bot->getLevel() - (int)from->getLevel() > InvLevel)
 
@@ -57,13 +57,13 @@ PlayerbotSecurityLevel PlayerbotSecurity::LevelFor(Player* from, DenyReason* rea
                 return PLAYERBOT_SECURITY_TALK;
             }
         }
-/*
+        /*
         int botGS = (int)bot->GetPlayerbotAI()->GetEquipGearScore(bot, false, false);
         int fromGS = (int)bot->GetPlayerbotAI()->GetEquipGearScore(from, false, false);
         if (botGS && bot->getLevel() > 15 && (100 * (botGS - fromGS) / botGS) >= 12 * sWorld.getConfig(CONFIG_UINT32_MAX_PLAYER_LEVEL) / from->getLevel())
         {
-            if (reason) *reason = PLAYERBOT_DENY_GEARSCORE;
-            return PLAYERBOT_SECURITY_TALK;
+        if (reason) *reason = PLAYERBOT_DENY_GEARSCORE;
+        return PLAYERBOT_SECURITY_TALK;
         }*/
 
         if (bot->IsDead())
@@ -129,12 +129,12 @@ bool PlayerbotSecurity::CheckLevelFor(PlayerbotSecurityLevel level, bool silent,
             out << "You are too low level: |cffff0000" << (uint32)from->getLevel() << "|cffffffff/|cff00ff00" << (uint32)bot->getLevel();
             break;
         case PLAYERBOT_DENY_GEARSCORE:
-            {
-                int botGS = (int)bot->GetPlayerbotAI()->GetEquipGearScore(bot, false, false);
-                int fromGS = (int)bot->GetPlayerbotAI()->GetEquipGearScore(from, false, false);
-                out << "Your gearscore is too low: |cffff0000" << fromGS << "|cffffffff/|cff00ff00" << botGS;
-            }
-            break;
+        {
+            int botGS = (int)bot->GetPlayerbotAI()->GetEquipGearScore(bot, false, false);
+            int fromGS = (int)bot->GetPlayerbotAI()->GetEquipGearScore(from, false, false);
+            out << "Your gearscore is too low: |cffff0000" << fromGS << "|cffffffff/|cff00ff00" << botGS;
+        }
+        break;
         case PLAYERBOT_DENY_NOT_YOURS:
             out << "I have a master already";
             break;
@@ -151,20 +151,20 @@ bool PlayerbotSecurity::CheckLevelFor(PlayerbotSecurityLevel level, bool silent,
             out << "Invite me to your group first";
             break;
         case PLAYERBOT_DENY_FAR:
-            {
-                out << "I am too far away";
+        {
+            out << "I am too far away";
 
-                uint32 area = bot->GetAreaId();
-                if (area)
+            uint32 area = bot->GetAreaId();
+            if (area)
+            {
+                const AreaTableEntry* entry = sAreaStore.LookupEntry(area);
+                if (entry)
                 {
-					const AreaTableEntry* entry = sAreaStore.LookupEntry(area);
-                    if (entry)
-                    {
-                        out << " |cffffffff(|cffff0000" << entry->area_name[0] << "|cffffffff)";
-                    }
+                    out << " |cffffffff(|cffff0000" << entry->area_name[0] << "|cffffffff)";
                 }
             }
-            break;
+        }
+        break;
         case PLAYERBOT_DENY_FULL_GROUP:
             out << "I am in a full group. Will do it later";
             break;

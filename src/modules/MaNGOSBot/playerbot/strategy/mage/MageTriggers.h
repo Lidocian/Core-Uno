@@ -4,23 +4,23 @@
 namespace ai
 {
     BUFF_ON_PARTY_TRIGGER(ArcaneIntellectOnPartyTrigger, "arcane intellect", "arcane intellect on party")
-    BUFF_TRIGGER(ArcaneIntellectTrigger, "arcane intellect", "arcane intellect")
+        BUFF_TRIGGER(ArcaneIntellectTrigger, "arcane intellect", "arcane intellect")
 
-    class MageArmorTrigger : public BuffTrigger {
-    public:
-        MageArmorTrigger(PlayerbotAI* ai) : BuffTrigger(ai, "mage armor") {}
-        virtual bool IsActive();
+        class MageArmorTrigger : public BuffTrigger {
+        public:
+            MageArmorTrigger(PlayerbotAI* ai) : BuffTrigger(ai, "mage armor") {}
+            virtual bool IsActive();
     };
 
     class LivingBombTrigger : public DebuffTrigger {
     public:
         LivingBombTrigger(PlayerbotAI* ai) : DebuffTrigger(ai, "living bomb") {}
-	};
+    };
 
     class FireballTrigger : public DebuffTrigger {
     public:
         FireballTrigger(PlayerbotAI* ai) : DebuffTrigger(ai, "fireball") {}
-	};
+    };
 
     class PyroblastTrigger : public DebuffTrigger {
     public:

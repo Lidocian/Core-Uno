@@ -46,7 +46,7 @@ void StatsAction::ListBagSlots(ostringstream &out)
     // list out items in other removable backpacks
     for (uint8 bag = INVENTORY_SLOT_BAG_START; bag < INVENTORY_SLOT_BAG_END; ++bag)
     {
-        const Bag* const pBag = (Bag*) bot->GetItemByPos(INVENTORY_SLOT_BAG_0, bag);
+        const Bag* const pBag = (Bag*)bot->GetItemByPos(INVENTORY_SLOT_BAG_0, bag);
         if (pBag)
         {
             ItemPrototype const* pBagProto = pBag->GetProto();
@@ -59,15 +59,15 @@ void StatsAction::ListBagSlots(ostringstream &out)
 
     }
 
-	string color = "ff00ff00";
-	if (totalfree < total / 2)
-		color = "ffffff00";
-	if (totalfree < total / 4)
-		color = "ffff0000";
+    string color = "ff00ff00";
+    if (totalfree < total / 2)
+        color = "ffffff00";
+    if (totalfree < total / 4)
+        color = "ffff0000";
     out << "|h|c" << color << totalfree << "/" << total << "|h|cffffffff Bag";
 }
 
-void StatsAction::ListXP( ostringstream &out )
+void StatsAction::ListXP(ostringstream &out)
 {
     uint32 curXP = bot->GetUInt32Value(PLAYER_XP);
     uint32 nextLevelXP = bot->GetUInt32Value(PLAYER_NEXT_LEVEL_XP);
@@ -88,9 +88,9 @@ void StatsAction::ListRepairCost(ostringstream &out)
     uint32 totalCost = 0;
     double repairPercent = 0;
     double repairCount = 0;
-    for(int i = EQUIPMENT_SLOT_START; i < INVENTORY_SLOT_ITEM_END; ++i)
+    for (int i = EQUIPMENT_SLOT_START; i < INVENTORY_SLOT_ITEM_END; ++i)
     {
-        uint16 pos = ( (INVENTORY_SLOT_BAG_0 << 8) | i );
+        uint16 pos = ((INVENTORY_SLOT_BAG_0 << 8) | i);
         totalCost += EstRepair(pos);
         double repair = RepairPercent(pos);
         if (repair < 100)
@@ -114,39 +114,39 @@ uint32 StatsAction::EstRepair(uint16 pos)
     Item* item = bot->GetItemByPos(pos);
 
     uint32 TotalCost = 0;
-    if(!item)
+    if (!item)
         return TotalCost;
 
     uint32 maxDurability = item->GetUInt32Value(ITEM_FIELD_MAXDURABILITY);
-    if(!maxDurability)
+    if (!maxDurability)
         return TotalCost;
 
     uint32 curDurability = item->GetUInt32Value(ITEM_FIELD_DURABILITY);
 
     uint32 LostDurability = maxDurability - curDurability;
-    if(LostDurability>0)
+    if (LostDurability>0)
     {
         ItemPrototype const *ditemProto = item->GetProto();
 
         DurabilityCostsEntry const *dcost = sDurabilityCostsStore.LookupEntry(ditemProto->ItemLevel);
-        if(!dcost)
+        if (!dcost)
         {
             sLog.outError("RepairDurability: Wrong item lvl %u", ditemProto->ItemLevel);
             return TotalCost;
         }
 
-        uint32 dQualitymodEntryId = (ditemProto->Quality+1)*2;
+        uint32 dQualitymodEntryId = (ditemProto->Quality + 1) * 2;
         DurabilityQualityEntry const *dQualitymodEntry = sDurabilityQualityStore.LookupEntry(dQualitymodEntryId);
-        if(!dQualitymodEntry)
+        if (!dQualitymodEntry)
         {
             sLog.outError("RepairDurability: Wrong dQualityModEntry %u", dQualitymodEntryId);
             return TotalCost;
         }
 
-        uint32 dmultiplier = dcost->multiplier[ItemSubClassToDurabilityMultiplierId(ditemProto->Class,ditemProto->SubClass)];
+        uint32 dmultiplier = dcost->multiplier[ItemSubClassToDurabilityMultiplierId(ditemProto->Class, ditemProto->SubClass)];
         uint32 costs = uint32(LostDurability*dmultiplier*double(dQualitymodEntry->quality_mod));
 
-        if (costs==0)                                   //fix for ITEM_QUALITY_ARTIFACT
+        if (costs == 0)                                   //fix for ITEM_QUALITY_ARTIFACT
             costs = 1;
 
         TotalCost = costs;
@@ -161,7 +161,7 @@ double StatsAction::RepairPercent(uint16 pos)
         return 100;
 
     uint32 maxDurability = item->GetUInt32Value(ITEM_FIELD_MAXDURABILITY);
-    if(!maxDurability)
+    if (!maxDurability)
         return 100;
 
     uint32 curDurability = item->GetUInt32Value(ITEM_FIELD_DURABILITY);

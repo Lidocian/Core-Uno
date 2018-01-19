@@ -4,8 +4,8 @@
 namespace ai
 {
     class ThreatValue : public Uint8CalculatedValue, public Qualified
-	{
-	public:
+    {
+    public:
         ThreatValue(PlayerbotAI* ai) : Uint8CalculatedValue(ai) {}
 
     public:

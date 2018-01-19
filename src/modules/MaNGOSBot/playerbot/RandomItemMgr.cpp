@@ -17,8 +17,8 @@ public:
     virtual bool Apply(ItemPrototype const* proto)
     {
         if (proto->Bonding == BIND_WHEN_PICKED_UP ||
-                proto->Bonding == BIND_QUEST_ITEM ||
-                proto->Bonding == BIND_WHEN_USE)
+            proto->Bonding == BIND_QUEST_ITEM ||
+            proto->Bonding == BIND_WHEN_USE)
             return false;
 
         if (proto->Quality < ITEM_QUALITY_NORMAL)
@@ -37,13 +37,13 @@ public:
 class RandomItemGuildTaskRewardPredicate : public RandomItemPredicate
 {
 public:
-    RandomItemGuildTaskRewardPredicate(bool equip, bool rare) { this->equip = equip; this->rare = rare;}
+    RandomItemGuildTaskRewardPredicate(bool equip, bool rare) { this->equip = equip; this->rare = rare; }
 
     virtual bool Apply(ItemPrototype const* proto)
     {
         if (proto->Bonding == BIND_WHEN_PICKED_UP ||
-                proto->Bonding == BIND_QUEST_ITEM ||
-                proto->Bonding == BIND_WHEN_USE)
+            proto->Bonding == BIND_QUEST_ITEM ||
+            proto->Bonding == BIND_WHEN_USE)
             return false;
 
         if (proto->Class == ITEM_CLASS_QUEST)
@@ -95,7 +95,7 @@ bool RandomItemMgr::HandleConsoleCommand(ChatHandler* handler, char const* args)
 {
     if (!args || !*args)
     {
-        sLog.outError( "Usage: rnditem");
+        sLog.outError("Usage: rnditem");
         return false;
     }
 
@@ -129,9 +129,9 @@ RandomItemList RandomItemMgr::Query(RandomItemType type)
 {
     RandomItemList items;
 
-	for (uint32 itemId = 0; itemId < sItemStorage.GetMaxEntry(); ++itemId)
-	{
-		ItemPrototype const* proto = sObjectMgr.GetItemPrototype(itemId);
+    for (uint32 itemId = 0; itemId < sItemStorage.GetMaxEntry(); ++itemId)
+    {
+        ItemPrototype const* proto = sObjectMgr.GetItemPrototype(itemId);
         if (!proto)
             continue;
 
@@ -157,7 +157,7 @@ RandomItemList RandomItemMgr::Query(RandomItemType type)
     }
 
     if (items.empty())
-        sLog.outError( "no items available for random item query %u", type);
+        sLog.outError("no items available for random item query %u", type);
 
     return items;
 }

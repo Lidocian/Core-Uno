@@ -47,7 +47,7 @@ void PlayerbotHolder::LogoutAllBots()
     {
         PlayerBotMap::const_iterator itr = GetPlayerBotsBegin();
         if (itr == GetPlayerBotsEnd()) break;
-        Player* bot= itr->second;
+        Player* bot = itr->second;
         LogoutPlayerBot(bot->GetObjectGuid().GetRawValue());
     }
 }
@@ -77,9 +77,9 @@ Player* PlayerbotHolder::GetPlayerBot(uint64 playerGuid) const
 
 void PlayerbotHolder::OnBotLogin(Player * const bot)
 {
-	PlayerbotAI* ai = new PlayerbotAI(bot);
-	bot->SetPlayerbotAI(ai);
-	OnBotLoginInternal(bot);
+    PlayerbotAI* ai = new PlayerbotAI(bot);
+    bot->SetPlayerbotAI(ai);
+    OnBotLoginInternal(bot);
 
     playerBots[bot->GetObjectGuid().GetRawValue()] = bot;
 
@@ -88,7 +88,7 @@ void PlayerbotHolder::OnBotLogin(Player * const bot)
     {
         ObjectGuid masterGuid = master->GetObjectGuid();
         if (master->GetGroup() &&
-            ! master->GetGroup()->IsLeader(masterGuid))
+            !master->GetGroup()->IsLeader(masterGuid))
             master->GetGroup()->ChangeLeader(masterGuid);
     }
 
@@ -223,11 +223,11 @@ string PlayerbotHolder::ProcessBotCommand(string cmd, ObjectGuid guid, bool admi
 
 bool PlayerbotMgr::HandlePlayerbotMgrCommand(ChatHandler* handler, char const* args)
 {
-	if (!sPlayerbotAIConfig.enabled)
-	{
-		handler->PSendSysMessage("|cffff0000Playerbot system is currently disabled!");
+    if (!sPlayerbotAIConfig.enabled)
+    {
+        handler->PSendSysMessage("|cffff0000Playerbot system is currently disabled!");
         return false;
-	}
+    }
 
     WorldSession *m_session = handler->GetSession();
 
@@ -267,8 +267,8 @@ list<string> PlayerbotHolder::HandlePlayerbotCommand(char const* args, Player* m
         return messages;
     }
 
-    char *cmd = strtok ((char*)args, " ");
-    char *charname = strtok (NULL, " ");
+    char *cmd = strtok((char*)args, " ");
+    char *charname = strtok(NULL, " ");
     if (!cmd)
     {
         messages.push_back("usage: list or add/init/remove PLAYERNAME");
@@ -303,14 +303,14 @@ list<string> PlayerbotHolder::HandlePlayerbotCommand(char const* args, Player* m
         Group::MemberSlotList slots = group->GetMemberSlots();
         for (Group::member_citerator i = slots.begin(); i != slots.end(); i++)
         {
-			ObjectGuid member = i->guid;
+            ObjectGuid member = i->guid;
 
-			if (member.GetRawValue() == master->GetObjectGuid().GetRawValue())
-				continue;
+            if (member.GetRawValue() == master->GetObjectGuid().GetRawValue())
+                continue;
 
-			string bot;
-			if (sObjectMgr.GetPlayerNameByGUID(member, bot))
-			    bots.insert(bot);
+            string bot;
+            if (sObjectMgr.GetPlayerNameByGUID(member, bot))
+                bots.insert(bot);
         }
     }
 
@@ -348,9 +348,9 @@ list<string> PlayerbotHolder::HandlePlayerbotCommand(char const* args, Player* m
                 bots.insert(charName);
             } while (results->NextRow());
 
-			delete results;
+            delete results;
         }
-	}
+    }
 
     for (set<string>::iterator i = bots.begin(); i != bots.end(); ++i)
     {
@@ -366,9 +366,9 @@ list<string> PlayerbotHolder::HandlePlayerbotCommand(char const* args, Player* m
         else if (master && member.GetRawValue() != master->GetObjectGuid().GetRawValue())
         {
             out << ProcessBotCommand(cmdStr, member,
-                    master->GetSession()->GetSecurity() >= SEC_GAMEMASTER,
-                    master->GetSession()->GetAccountId(),
-                    master->GetGuildId());
+                master->GetSession()->GetSecurity() >= SEC_GAMEMASTER,
+                master->GetSession()->GetAccountId(),
+                master->GetGuildId());
         }
         else if (!master)
         {
@@ -386,11 +386,11 @@ uint32 PlayerbotHolder::GetAccountId(string name)
     uint32 accountId = 0;
 
     QueryResult* results = LoginDatabase.PQuery("SELECT id FROM account WHERE username = '%s'", name.c_str());
-    if(results)
+    if (results)
     {
         Field* fields = results->Fetch();
         accountId = fields[0].GetUInt32();
-		delete results;
+        delete results;
     }
 
     return accountId;
@@ -399,7 +399,7 @@ uint32 PlayerbotHolder::GetAccountId(string name)
 string PlayerbotHolder::ListBots(Player* master)
 {
     set<string> bots;
-    map<uint8,string> classNames;
+    map<uint8, string> classNames;
     classNames[CLASS_DRUID] = "Druid";
     classNames[CLASS_HUNTER] = "Hunter";
     classNames[CLASS_MAGE] = "Mage";
@@ -428,7 +428,7 @@ string PlayerbotHolder::ListBots(Player* master)
     if (master)
     {
         QueryResult* results = CharacterDatabase.PQuery("SELECT class,name FROM characters where account = '%u'",
-                master->GetSession()->GetAccountId());
+            master->GetSession()->GetAccountId());
         if (results != NULL)
         {
             do
@@ -443,7 +443,7 @@ string PlayerbotHolder::ListBots(Player* master)
                     classes[name] = classNames[cls];
                 }
             } while (results->NextRow());
-			delete results;
+            delete results;
         }
     }
 
@@ -463,7 +463,7 @@ string PlayerbotHolder::ListBots(Player* master)
 }
 
 
-PlayerbotMgr::PlayerbotMgr(Player* const master) : PlayerbotHolder(),  master(master)
+PlayerbotMgr::PlayerbotMgr(Player* const master) : PlayerbotHolder(), master(master)
 {
 }
 
@@ -514,11 +514,11 @@ void PlayerbotMgr::HandleMasterIncomingPacket(const WorldPacket& packet)
     switch (packet.GetOpcode())
     {
         // if master is logging out, log out all bots
-        case CMSG_LOGOUT_REQUEST:
-        {
-            LogoutAllBots();
-            return;
-        }
+    case CMSG_LOGOUT_REQUEST:
+    {
+        LogoutAllBots();
+        return;
+    }
     }
 }
 void PlayerbotMgr::HandleMasterOutgoingPacket(const WorldPacket& packet)
