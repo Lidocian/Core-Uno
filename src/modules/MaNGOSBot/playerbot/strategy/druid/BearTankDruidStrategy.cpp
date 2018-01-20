@@ -137,36 +137,20 @@ void BearTankDruidStrategy::InitTriggers(std::list<TriggerNode*> &triggers)
 {
     FeralDruidStrategy::InitTriggers(triggers);
 
-    triggers.push_back(new TriggerNode(
-        "thorns",
-        NextAction::array(0, new NextAction("thorns", ACTION_HIGH + 9), NULL)));
+    triggers.push_back(new TriggerNode("thorns", NextAction::array(0, new NextAction("thorns", ACTION_HIGH + 9), NULL)));
 
-    triggers.push_back(new TriggerNode(
-        "bear form",
-        NextAction::array(0, new NextAction("dire bear form", ACTION_HIGH + 8), NULL)));
+    triggers.push_back(new TriggerNode("bear form", NextAction::array(0, new NextAction("dire bear form", ACTION_HIGH + 8), NULL)));
 
-    triggers.push_back(new TriggerNode(
-        "faerie fire (feral)",
-        NextAction::array(0, new NextAction("faerie fire (feral)", ACTION_HIGH + 7), NULL)));
+    triggers.push_back(new TriggerNode("faerie fire (feral)", NextAction::array(0, new NextAction("faerie fire (feral)", ACTION_HIGH + 7), NULL)));
 
-    triggers.push_back(new TriggerNode(
-        "lose aggro",
-        NextAction::array(0, new NextAction("growl", ACTION_HIGH + 8), NULL)));
+    triggers.push_back(new TriggerNode("lose aggro", NextAction::array(0, new NextAction("growl", ACTION_HIGH + 8), NULL)));
 
-    triggers.push_back(new TriggerNode(
-        "medium aoe",
-        NextAction::array(0, new NextAction("demoralizing roar", ACTION_HIGH + 6), new NextAction("swipe (bear)", ACTION_HIGH + 6), NULL)));
+    triggers.push_back(new TriggerNode("medium aoe", NextAction::array(0, new NextAction("demoralizing roar", ACTION_HIGH + 6), new NextAction("swipe (bear)", ACTION_HIGH + 6), NULL)));
 
-    triggers.push_back(new TriggerNode(
-        "light aoe",
-        NextAction::array(0, new NextAction("swipe (bear)", ACTION_HIGH + 5), NULL)));
+    triggers.push_back(new TriggerNode("light aoe", NextAction::array(0, new NextAction("swipe (bear)", ACTION_HIGH + 5), NULL)));
 
-    triggers.push_back(new TriggerNode(
-        "bash",
-        NextAction::array(0, new NextAction("bash", ACTION_INTERRUPT + 2), NULL)));
+    triggers.push_back(new TriggerNode("bash", NextAction::array(0, new NextAction("bash", ACTION_INTERRUPT + 2), NULL)));
 
-    triggers.push_back(new TriggerNode(
-        "bash on enemy healer",
-        NextAction::array(0, new NextAction("bash on enemy healer", ACTION_INTERRUPT + 1), NULL)));
+    triggers.push_back(new TriggerNode("bash on enemy healer", NextAction::array(0, new NextAction("bash on enemy healer", ACTION_INTERRUPT + 1), NULL)));
 
 }

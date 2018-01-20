@@ -10,6 +10,4 @@ namespace ai
            virtual string getName() { return "runaway"; }
            virtual void InitTriggers(std::list<TriggerNode*> &triggers);
        };
-
-
 }

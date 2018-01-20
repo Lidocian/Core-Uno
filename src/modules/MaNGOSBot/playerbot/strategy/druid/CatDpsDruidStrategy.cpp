@@ -100,40 +100,24 @@ void CatDpsDruidStrategy::InitTriggers(std::list<TriggerNode*> &triggers)
 {
     FeralDruidStrategy::InitTriggers(triggers);
 
-    triggers.push_back(new TriggerNode(
-        "cat form",
-        NextAction::array(0, new NextAction("cat form", ACTION_MOVE + 2), NULL)));
+    triggers.push_back(new TriggerNode("cat form", NextAction::array(0, new NextAction("cat form", ACTION_MOVE + 2), NULL)));
 
-    triggers.push_back(new TriggerNode(
-        "rake",
-        NextAction::array(0, new NextAction("rake", ACTION_NORMAL + 5), NULL)));
+    triggers.push_back(new TriggerNode("rake", NextAction::array(0, new NextAction("rake", ACTION_NORMAL + 5), NULL)));
 
-    triggers.push_back(new TriggerNode(
-        "combo points available",
-        NextAction::array(0, new NextAction("ferocious bite", ACTION_NORMAL + 9), NULL)));
+    triggers.push_back(new TriggerNode("combo points available", NextAction::array(0, new NextAction("ferocious bite", ACTION_NORMAL + 9), NULL)));
 
-    triggers.push_back(new TriggerNode(
-        "medium threat",
-        NextAction::array(0, new NextAction("cower", ACTION_EMERGENCY + 1), NULL)));
+    triggers.push_back(new TriggerNode("medium threat", NextAction::array(0, new NextAction("cower", ACTION_EMERGENCY + 1), NULL)));
 
-    triggers.push_back(new TriggerNode(
-        "faerie fire (feral)",
-        NextAction::array(0, new NextAction("faerie fire (feral)", ACTION_HIGH + 1), NULL)));
+    triggers.push_back(new TriggerNode("faerie fire (feral)", NextAction::array(0, new NextAction("faerie fire (feral)", ACTION_HIGH + 1), NULL)));
 
-	triggers.push_back(new TriggerNode(
-		"tiger's fury",
-		NextAction::array(0, new NextAction("tiger's fury", ACTION_EMERGENCY + 1), NULL)));
+    triggers.push_back(new TriggerNode("tiger's fury", NextAction::array(0, new NextAction("tiger's fury", ACTION_EMERGENCY + 1), NULL)));
 
-    triggers.push_back(new TriggerNode(
-        "entangling roots",
-        NextAction::array(0, new NextAction("entangling roots on cc", ACTION_HIGH + 1), NULL)));
+    triggers.push_back(new TriggerNode("entangling roots", NextAction::array(0, new NextAction("entangling roots on cc", ACTION_HIGH + 1), NULL)));
 
 }
 
 void CatAoeDruidStrategy::InitTriggers(std::list<TriggerNode*> &triggers)
 {
-    triggers.push_back(new TriggerNode(
-        "medium aoe",
-        NextAction::array(0, new NextAction("swipe (cat)", ACTION_HIGH + 2), NULL)));
+    triggers.push_back(new TriggerNode("medium aoe", NextAction::array(0, new NextAction("swipe (cat)", ACTION_HIGH + 2), NULL)));
 }
 

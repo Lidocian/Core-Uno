@@ -10,5 +10,4 @@ namespace ai
         virtual string getName() { return "stay"; }
         virtual NextAction** getDefaultActions();
     };
-
 }
