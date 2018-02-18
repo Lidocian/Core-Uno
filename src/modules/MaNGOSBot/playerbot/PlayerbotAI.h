@@ -150,6 +150,10 @@ public:
     virtual bool CastSpell(string name, Unit* target);
     virtual bool HasAura(string spellName, Unit* player);
     virtual bool HasAnyAuraOf(Unit* player, ...);
+    virtual bool HasAuraCount(string name, Unit * unit, uint8 count);
+    virtual bool HasAuraCount(uint32 spellId, Unit * unit, uint8 count);
+    virtual uint8 GetAuraCount(string name, Unit * unit);
+    virtual uint8 GetAuraCount(uint32 spellId, Unit * unit);
 
     virtual bool IsInterruptableSpellCasting(Unit* player, string spell);
     virtual bool HasAuraToDispel(Unit* player, uint32 dispelType);

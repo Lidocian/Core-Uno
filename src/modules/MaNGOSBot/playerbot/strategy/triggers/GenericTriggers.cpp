@@ -16,7 +16,6 @@ bool MediumManaTrigger::IsActive()
     return AI_VALUE2(bool, "has mana", "self target") && AI_VALUE2(uint8, "mana", "self target") < sPlayerbotAIConfig.mediumMana;
 }
 
-
 bool RageAvailable::IsActive()
 {
     return AI_VALUE2(uint8, "rage", "self target") >= amount;
@@ -56,7 +55,18 @@ bool BuffTrigger::IsActive()
         (!AI_VALUE2(bool, "has mana", "self target") || AI_VALUE2(uint8, "mana", "self target") > sPlayerbotAIConfig.lowMana);
 }
 
+bool StackingBuffTrigger::IsActive()
+{
+    Unit * target = GetTarget();
+    return SpellTrigger::IsActive() && ai->GetAuraCount(spell, target) < GetStackCount() && (!AI_VALUE2(bool, "has mana", "self target") || AI_VALUE2(uint8, "mana", "self target") > sPlayerbotAIConfig.lowMana);
+}
+
 Value<Unit*>* BuffOnPartyTrigger::GetTargetValue()
+{
+    return context->GetValue<Unit*>("party member without aura", spell);
+}
+
+Value<Unit*>* StackingBuffOnPartyTrigger::GetTargetValue()
 {
     return context->GetValue<Unit*>("party member without aura", spell);
 }

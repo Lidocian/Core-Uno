@@ -173,8 +173,10 @@ namespace ai
                 creators["mark of the wild on party"] = &AiObjectContextInternal::mark_of_the_wild_on_party;
                 creators["regrowth"] = &AiObjectContextInternal::regrowth;
                 creators["rejuvenation"] = &AiObjectContextInternal::rejuvenation;
+                creators["swiftmend"] = &AiObjectContextInternal::swiftmend;
                 creators["healing touch"] = &AiObjectContextInternal::healing_touch;
                 creators["regrowth on party"] = &AiObjectContextInternal::regrowth_on_party;
+                creators["swiftmend on party"] = &AiObjectContextInternal::swiftmend_on_party;
                 creators["rejuvenation on party"] = &AiObjectContextInternal::rejuvenation_on_party;
                 creators["healing touch on party"] = &AiObjectContextInternal::healing_touch_on_party;
                 creators["lifebloom on party"] = &AiObjectContextInternal::lifebloom_on_party;
@@ -233,9 +235,11 @@ namespace ai
             static Action* mark_of_the_wild_on_party(PlayerbotAI* ai) { return new CastMarkOfTheWildOnPartyAction(ai); }
             static Action* regrowth(PlayerbotAI* ai) { return new CastRegrowthAction(ai); }
             static Action* rejuvenation(PlayerbotAI* ai) { return new CastRejuvenationAction(ai); }
+            static Action* swiftmend(PlayerbotAI* ai) { return new CastSwiftmendAction(ai); }
             static Action* healing_touch(PlayerbotAI* ai) { return new CastHealingTouchAction(ai); }
             static Action* regrowth_on_party(PlayerbotAI* ai) { return new CastRegrowthOnPartyAction(ai); }
             static Action* rejuvenation_on_party(PlayerbotAI* ai) { return new CastRejuvenationOnPartyAction(ai); }
+            static Action* swiftmend_on_party(PlayerbotAI* ai) { return new CastSwiftmendOnPartyAction(ai); }
             static Action* healing_touch_on_party(PlayerbotAI* ai) { return new CastHealingTouchOnPartyAction(ai); }
             static Action* lifebloom_on_party(PlayerbotAI* ai) { return new CastLifeBloomOnPartyAction(ai); }
             static Action* rebirth(PlayerbotAI* ai) { return new CastRebirthAction(ai); }
